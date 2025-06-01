@@ -21,4 +21,14 @@ program
         })
     });
 
+program
+    .command('make:rule')
+    .description('Create a new rule')
+    .argument('<name>', 'Rule name')
+    .action((name) => {
+        handleExceptionAdvice(() => {
+            new ModuleGeneratorEngine().createRule(name)
+        })
+    });
+
 program.parse();
