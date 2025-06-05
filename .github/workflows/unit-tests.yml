@@ -1,0 +1,22 @@
+name: Build and Unit Tests
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies, build and run tests
+        run: |
+          npm install
+          npm run build
+          npm run test

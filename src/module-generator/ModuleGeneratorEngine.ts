@@ -96,7 +96,7 @@ export class ModuleGeneratorEngine {
             throw new Error('Module type not suported');
         }
 
-        return path.join(basePath, 'test')
+        return path.resolve(__dirname, path.join(basePath, 'test'))
 
     }
 
