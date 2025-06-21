@@ -1,7 +1,7 @@
-import { Plugin, PluginContext } from '../../../types/module.types';
-import { PluginBuilder } from '../../builder/PluginBuilder';
-import { RequireManager } from '../../manager/RequireManager';
 import { ModuleEngine } from './ModuleEngine';
+import { Plugin, PluginContext } from '@/types/module.types';
+import { PluginBuilder } from '@core/builder/PluginBuilder';
+import { RequireManager } from '@core/manager/RequireManager';
 
 export class PluginEngine extends ModuleEngine<Plugin> {
 

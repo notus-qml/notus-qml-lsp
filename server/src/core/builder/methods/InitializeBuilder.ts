@@ -1,5 +1,5 @@
-import { TextDocumentSyncKind } from "../../../types/lsp/document.types";
-import { InitializeResult } from "../../../types/lsp/initialize.types";
+import { TextDocumentSyncKind } from "@/types/lsp/document.types";
+import { InitializeResult } from "@/types/lsp/initialize.types";
 
 export class InitializeResultBuilder {
     private result: Partial<InitializeResult> = {

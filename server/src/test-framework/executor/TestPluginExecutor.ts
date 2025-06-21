@@ -1,6 +1,6 @@
-import { TestPluginEngine } from "../TestPluginEngine";
-import { TestCase } from "../types/test.types";
 import { TestExecutor } from "./TestExecutor";
+import { TestPluginEngine } from "@test/TestPluginEngine";
+import { TestCase } from "@test/types/test.types";
 
 export class TestPluginExecutor extends TestExecutor {
 

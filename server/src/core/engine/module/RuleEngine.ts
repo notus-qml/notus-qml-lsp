@@ -1,7 +1,7 @@
-import { Rule, RuleContext } from '../../../types/module.types';
-import { RuleBuilder } from '../../builder/RuleBuilder';
-import { RequireManager } from '../../manager/RequireManager';
 import { ModuleEngine } from './ModuleEngine';
+import { Rule, RuleContext } from '@/types/module.types';
+import { RuleBuilder } from '@core/builder/RuleBuilder';
+import { RequireManager } from '@core/manager/RequireManager';
 
 export class RuleEngine extends ModuleEngine<Rule> {
 

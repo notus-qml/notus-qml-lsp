@@ -1,6 +1,6 @@
-import { TestRuleEngine } from "../TestRuleEngine";
-import { TestCase } from "../types/test.types";
 import { TestExecutor } from "./TestExecutor";
+import { TestRuleEngine } from "@test/TestRuleEngine";
+import { TestCase } from "@test/types/test.types";
 
 export class TestRuleExecutor extends TestExecutor {
 

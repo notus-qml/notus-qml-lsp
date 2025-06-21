@@ -1,6 +1,6 @@
-import { RequestMessage } from "../../types/module.types";
-import { MethodEngine } from "../engine/MethodEngine";
-import { logger } from "../logger/Logger";
+import { RequestMessage } from "@/types/module.types";
+import { MethodEngine } from "@core/engine/MethodEngine";
+import { logger } from "@core/logger/Logger";
 
 type StdoutCallback = (response: string) => void;
 

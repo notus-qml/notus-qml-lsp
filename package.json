@@ -27,6 +27,8 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@types/module-alias": "^2.0.4",
+    "module-alias": "^2.2.3",
     "tree-sitter": "^0.22.4"
   }
 }

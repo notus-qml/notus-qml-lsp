@@ -1,4 +1,4 @@
-import { Plugin, Rule } from "../../../types/module.types";
+import { Plugin, Rule } from "@/types/module.types";
 
 type ModuleType = Plugin | Rule;
 

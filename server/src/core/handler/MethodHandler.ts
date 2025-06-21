@@ -1,6 +1,6 @@
-import methods from "../../methods";
-import { PluginEngine } from "../engine/module/PluginEngine";
-import { RuleEngine } from "../engine/module/RuleEngine";
+import methods from "@/methods";
+import { PluginEngine } from "@core/engine/module/PluginEngine";
+import { RuleEngine } from "@core/engine/module/RuleEngine";
 
 type AcceptableMethodName = keyof typeof methods.rules | keyof typeof methods.plugins | undefined;
 

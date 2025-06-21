@@ -1,4 +1,4 @@
-import { TestCase } from "../types/test.types";
+import { TestCase } from "@test/types/test.types";
 
 export abstract class TestExecutor {
 

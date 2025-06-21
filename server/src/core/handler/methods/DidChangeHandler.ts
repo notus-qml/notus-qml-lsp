@@ -1,4 +1,4 @@
-import { MethodHandler } from "../MethodHandler";
+import { MethodHandler } from "@core/handler/MethodHandler";
 
 export class DidChangeHandler extends MethodHandler<any, any> {
 

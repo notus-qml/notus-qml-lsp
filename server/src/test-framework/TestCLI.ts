@@ -1,3 +1,5 @@
+import "module-alias/register"
+
 import { Command } from 'commander';
 import { TestEngine } from './TestEngine';
 

@@ -1,6 +1,7 @@
-import { MethodDispatcher } from "./core/dispatcher/MethodDispatcher"
-import { LoggerConfig } from "./core/logger/LoggerConfig"
-import { logger } from "./core/logger/Logger"
+import "module-alias/register"
+import { MethodDispatcher } from "@core/dispatcher/MethodDispatcher"
+import { LoggerConfig } from "@core/logger/LoggerConfig"
+import { logger } from "@core/logger/Logger"
 
 LoggerConfig.initialize();
 

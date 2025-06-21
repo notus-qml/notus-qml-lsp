@@ -1,12 +1,12 @@
 import { MethodRegistry } from "./MethodRegistry";
-import { DiagnosticHandler } from "../handler/methods/DiagnosticHandler";
-import { CompletitionHandler } from "../handler/methods/CompletitionHandler";
-import { CodeActionHandler } from "../handler/methods/CodeActionHandler";
-import { DidOpenHandler } from "../handler/methods/DidOpenHandler";
-import { DidChangeHandler } from "../handler/methods/DidChangeHandler";
-import { FormattingHandler } from "../handler/methods/FormattingHandler";
-import { InitializeHandler } from "../handler/methods/InitializeHandler";
-import { logger } from "../logger/Logger";
+import { DiagnosticHandler } from "@core/handler/methods/DiagnosticHandler";
+import { CompletitionHandler } from "@core/handler/methods/CompletitionHandler";
+import { CodeActionHandler } from "@core/handler/methods/CodeActionHandler";
+import { DidOpenHandler } from "@core/handler/methods/DidOpenHandler";
+import { DidChangeHandler } from "@core/handler/methods/DidChangeHandler";
+import { FormattingHandler } from "@core/handler/methods/FormattingHandler";
+import { InitializeHandler } from "@core/handler/methods/InitializeHandler";
+import { logger } from "@core/logger/Logger";
 
 export class MethodEngine {
 

@@ -1,10 +1,10 @@
-import { InitializeResultBuilder } from "../../builder/methods/InitializeBuilder";
-import { MethodHandler } from "../MethodHandler"
-import { TextDocumentSyncKind } from "../../../types/lsp/document.types";
-import Application from "../../singleton/Application";
-import { InitializeResult } from "../../../types/lsp/initialize.types";
-import { RequestMessage } from "../../../types/lsp/message.types";
-import { logger } from "../../logger/Logger";
+import { InitializeResultBuilder } from "@core/builder/methods/InitializeBuilder";
+import { MethodHandler } from "@core/handler/MethodHandler"
+import { TextDocumentSyncKind } from "@/types/lsp/document.types";
+import Application from "@core/singleton/Application";
+import { InitializeResult } from "@/types/lsp/initialize.types";
+import { RequestMessage } from "@/types/lsp/message.types";
+import { logger } from "@core/logger/Logger";
 
 export class InitializeHandler extends MethodHandler<RequestMessage, InitializeResult> {
 

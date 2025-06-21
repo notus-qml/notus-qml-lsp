@@ -8,9 +8,9 @@
     "copy:templates": "cpx \"tools/module-generator/templates/files/**/*\" build/tools/module-generator/templates/files",
     "build": "tsc && npm run copy:templates",
     "build:tools": "tsc -p tools/tsconfig.json",
-    "start": "npm run build && node -r tsconfig-paths/register ./build/server.js",
-    "test": "npm run build && node -r tsconfig-paths/register ./build/test-framework/TestCLI.js",
-    "cli:generator": "npm run build:tools && node -r tsconfig-paths/register ./build/tools/module-generator/ModuleGeneratorCLI.js",
+    "start": "npm run build && node ./build/server.js",
+    "test": "npm run build && node ./build/test-framework/TestCLI.js",
+    "cli:generator": "npm run build:tools && node ./build/tools/module-generator/ModuleGeneratorCLI.js",
     "dev": "tsc --watch",
     "watch": "tsc -w"
   },
@@ -27,8 +27,15 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@types/module-alias": "^2.0.4",
     "commander": "^14.0.0",
     "cpx": "^1.5.0",
+    "module-alias": "^2.2.3",
     "tsconfig-paths": "^4.2.0"
+  },
+  "_moduleAliases": {
+    "@": "./build",
+    "@core": "./build/core",
+    "@test": "./build/test-framework"
   }
 }

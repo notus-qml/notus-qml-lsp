@@ -1,4 +1,4 @@
-import { MethodHandler } from "../handler/MethodHandler";
+import { MethodHandler } from "@core/handler/MethodHandler";
 
 export class MethodRegistry {
 
