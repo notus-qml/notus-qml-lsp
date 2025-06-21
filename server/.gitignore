@@ -1,8 +1,9 @@
+## Ignore files or dirs
+
 out
 node_modules
-client/server
 .vscode-test
 tsconfig.tsbuildinfo
-build 
+build
 .idea
 .vscode

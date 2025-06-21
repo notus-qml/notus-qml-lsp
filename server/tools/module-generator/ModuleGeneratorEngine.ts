@@ -8,8 +8,8 @@ import { TestTemplate } from './templates/TestTemplate';
 import { FileInfo, ModuleType } from './types/module-generator.types';
 
 // TODO change to absolute path
-const rulesContextPath = "../../src/rules"
-const pluginsContextPath = "../../src/plugins"
+const rulesContextPath = "../../../src/rules"
+const pluginsContextPath = "../../../src/plugins"
 
 export class ModuleGeneratorEngine {
 

@@ -1,0 +1,34 @@
+{
+  "name": "notus-qml",
+  "version": "1.0.0",
+  "description": "Cooming soon...",
+  "main": "./src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "copy:templates": "cpx \"tools/module-generator/templates/files/**/*\" build/tools/module-generator/templates/files",
+    "build": "tsc && npm run copy:templates",
+    "build:tools": "tsc -p tools/tsconfig.json",
+    "start": "npm run build && node -r tsconfig-paths/register ./build/server.js",
+    "test": "npm run build && node -r tsconfig-paths/register ./build/test-framework/TestCLI.js",
+    "cli:generator": "npm run build:tools && node -r tsconfig-paths/register ./build/tools/module-generator/ModuleGeneratorCLI.js",
+    "dev": "tsc --watch",
+    "watch": "tsc -w"
+  },
+  "keywords": [
+    "typescript",
+    "plugin",
+    "architecture",
+    "context"
+  ],
+  "author": "Luiz H.S",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "commander": "^14.0.0",
+    "cpx": "^1.5.0",
+    "tsconfig-paths": "^4.2.0"
+  }
+}

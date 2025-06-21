@@ -1,0 +1,21 @@
+{
+  "name": "sql-lsp-client-vscode",
+  "description": "Client to vscode LSP",
+  "author": "None",
+  "license": "MIT",
+  "version": "0.0.1",
+  "publisher": "None",
+  "repository": {
+    "type": "git",
+    "url": "None"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.81.0"
+  }
+}
