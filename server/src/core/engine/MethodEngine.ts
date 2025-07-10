@@ -7,10 +7,13 @@ import { DidChangeHandler } from "@core/handler/methods/DidChangeHandler";
 import { FormattingHandler } from "@core/handler/methods/FormattingHandler";
 import { InitializeHandler } from "@core/handler/methods/InitializeHandler";
 import { logger } from "@core/logger/Logger";
+import DocumentEngine from "../document/engine/DocumentEngine";
+import TreeSitterEngine from "../ast/engine/TreeSitterEngine";
 
 export class MethodEngine {
 
     private methodRegistry: MethodRegistry = new MethodRegistry();
+    private documentEngine: DocumentEngine = new DocumentEngine(new TreeSitterEngine());
 
     constructor() {
 
@@ -63,7 +66,7 @@ export class MethodEngine {
         });
 
         try {
-            const result = handler.execute(params);
+            const result = handler.execute(params, this.documentEngine);
             logger.debug('MethodEngine', 'Handler executed successfully', {
                 method: methodName,
                 result

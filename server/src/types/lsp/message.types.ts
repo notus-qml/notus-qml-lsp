@@ -10,3 +10,5 @@ export interface NotificationMessage extends Message {
 export interface RequestMessage extends NotificationMessage {
     id: number | string;
 }
+
+type NotificationMethod = (message: NotificationMessage) => void;

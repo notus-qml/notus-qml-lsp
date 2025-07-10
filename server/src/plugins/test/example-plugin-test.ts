@@ -1,5 +1,5 @@
-import { TestExecutor } from "../../test-framework/executor/TestExecutor";
-import { Test, compare, TestPlugin } from "../../test-framework/TestUtils";
+import { TestExecutor } from "@test/executor/TestExecutor";
+import { Test, compare, TestPlugin } from "@test/TestUtils";
 
 @TestPlugin("example-plugin")
 export class ExamplePluginTest {

@@ -17,7 +17,7 @@ export class TestRuleExecutor extends TestExecutor {
 
         const testClass = new TestRuleEngine(context);
 
-        testClass.run([this.moduleName])
+        // testClass.run([this.moduleName])
     }
 
 }

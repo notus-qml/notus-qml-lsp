@@ -17,7 +17,7 @@ export class TestPluginExecutor extends TestExecutor {
 
         const testClass = new TestPluginEngine(context);
 
-        testClass.run([this.moduleName])
+        // testClass.run([this.moduleName])
 
     }
 

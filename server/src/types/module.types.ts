@@ -1,6 +1,9 @@
+import methods from "@/methods";
+
 export interface ModuleContext {
     log: (message: string) => void;
     report: (data: any) => void;
+    result?: () => any;
     [key: string]: any;
 }
 
@@ -30,17 +33,11 @@ export interface Rule extends Module {
 
 }
 
-// LSP types definition
+export const NodeModuleType = {
+    PropertyDefinition: "PropertyDefinition",
+    ui_property: "ui_property"
+} as const;
 
-interface Message {
-    jsonrpc: string;
-}
+export type NodeModuleType = typeof NodeModuleType[keyof typeof NodeModuleType];
 
-export interface NotificationMessage extends Message {
-    method: string;
-    params?: unknown[] | object;
-}
-
-export interface RequestMessage extends NotificationMessage {
-    id: number | string;
-}
+export type AcceptableMethodName = keyof typeof methods.rules | keyof typeof methods.plugins | undefined;

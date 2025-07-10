@@ -1,3 +1,5 @@
+import DocumentEngine from "@/core/document/engine/DocumentEngine";
+import { RequestMessage } from "@/types/lsp/message.types";
 import { MethodHandler } from "@core/handler/MethodHandler";
 
 export class DidChangeHandler extends MethodHandler<any, any> {
@@ -6,7 +8,7 @@ export class DidChangeHandler extends MethodHandler<any, any> {
         super('textDocument/didChange');
     }
 
-    protected handleExecute(params: any): any {
+    protected handleExecute(request: RequestMessage, documentEngine: DocumentEngine): any {
         // ADD LOGIC HERE
         return null;
     }

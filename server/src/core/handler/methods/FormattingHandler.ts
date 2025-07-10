@@ -1,3 +1,4 @@
+import DocumentEngine from "@/core/document/engine/DocumentEngine";
 import { MethodHandler } from "@core/handler/MethodHandler";
 
 export class FormattingHandler extends MethodHandler<any, any> {
@@ -6,7 +7,7 @@ export class FormattingHandler extends MethodHandler<any, any> {
         super('textDocument/formatting');
     }
 
-    protected handleExecute(params: any): any {
+    protected handleExecute(params: any, documentEngine: DocumentEngine): any {
         // ADD LOGIC HERE
         return null;
     }

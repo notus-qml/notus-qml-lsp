@@ -1,69 +1,27 @@
-import methods from "@/methods";
-import { PluginEngine } from "@core/engine/module/PluginEngine";
-import { RuleEngine } from "@core/engine/module/RuleEngine";
+import { AcceptableMethodName, ModuleContext } from "@/types/module.types";
+import DocumentEngine from "../document/engine/DocumentEngine";
 
-type AcceptableMethodName = keyof typeof methods.rules | keyof typeof methods.plugins | undefined;
-
-export class MethodHandler<TParams, TResult> {
+export abstract class MethodHandler<TParams, TResult> {
 
     protected methodName: AcceptableMethodName | undefined;
+    protected context: ModuleContext | undefined;
 
-    protected pluginEngine: PluginEngine = new PluginEngine();
-    protected ruleEngine: RuleEngine = new RuleEngine();
-
-    constructor(methodName: AcceptableMethodName) {
+    constructor(methodName: AcceptableMethodName, context?: ModuleContext) {
         this.methodName = methodName;
+        this.context = context;
     }
 
-    public execute(params: TParams): TResult {
+    public execute(params: TParams, documentEngine: DocumentEngine): TResult {
 
-        // TODO return handlers result
-        this.runHandlers(this.methodName);
+        if (this.context) {
+            documentEngine.setMethod(this.methodName, this.context);
+        }
 
-        return this.handleExecute(params);
+        return this.handleExecute(params, documentEngine);
     }
 
-    protected handleExecute(params: TParams): TResult {
+    protected handleExecute(params: TParams, documentEngine: DocumentEngine): TResult {
         return undefined as TResult;
-    }
-
-    // TODO add return type
-    private runHandlers(methodName: AcceptableMethodName) {
-
-        this.runPluginsByMethod(methodName);
-        this.runRulesByMethod(methodName);
-
-    }
-
-    private runRulesByMethod(methodName: AcceptableMethodName) {
-
-        if (!methodName) {
-            return;
-        }
-
-        const rulesName = methods.rules[methodName] || [];
-
-        if (rulesName.length === 0) {
-            return;
-        }
-
-        this.ruleEngine.run(rulesName);
-    }
-
-    private runPluginsByMethod(methodName: AcceptableMethodName) {
-
-        if (!methodName) {
-            return;
-        }
-
-        const pluginsName = methods.plugins[methodName] || [];
-
-        if (pluginsName.length === 0) {
-            return;
-        }
-
-        this.pluginEngine.run(pluginsName);
-
     }
 
 }

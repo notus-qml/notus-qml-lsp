@@ -3,9 +3,9 @@ module.exports = {
     handlers: {
         'no-identification': {
             create: (context: any) => ({
-                VariableDeclaration: (node: any) => {
-                    context.log(`Visiting node: ${node.name}`);
-                    if (node.name === 'exampleVar') {
+                ui_property: (node: any) => {
+                    context.log(`Visiting node: ${node.type}`);
+                    if (node.type === 'exampleVar') {
                         context.report({
                             message: 'Id no identification',
                             node,

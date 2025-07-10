@@ -1,5 +1,5 @@
-import { TestExecutor } from "../../test-framework/executor/TestExecutor";
-import { Test, compare, TestRule } from "../../test-framework/TestUtils";
+import { TestExecutor } from "@test/executor/TestExecutor";
+import { Test, compare, TestRule } from "@test/TestUtils";
 
 @TestRule("my-custom-rule")
 export class MyCustomRule {
