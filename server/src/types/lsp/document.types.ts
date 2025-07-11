@@ -1,3 +1,5 @@
+import { ASTNode } from "../ast/ast.types";
+
 export namespace TextDocumentSyncKind {
     export const None: 0 = 0;
     export const Full: 1 = 1;
@@ -55,12 +57,12 @@ export interface DiagnosticRelatedInformation {
     message: string;
 }
 
-export interface Range {
-    start: Position;
-    end: Position;
+export interface LSPRange {
+    start: LSPPosition;
+    end: LSPPosition;
 }
 
-interface Position {
+interface LSPPosition {
     line: number;
     character: number;
 }
@@ -68,7 +70,7 @@ interface Position {
 export type LSPAny = any;
 
 export interface Diagnostic {
-    range: Range;
+    range: LSPRange;
     severity?: DiagnosticSeverity;
     code?: number | string;
     codeDescription?: CodeDescription;
@@ -78,6 +80,13 @@ export interface Diagnostic {
     relatedInformation?: DiagnosticRelatedInformation[];
     data?: LSPAny;
 }
+
+export interface DiagnosticContext {
+    node?: ASTNode;
+    item: Omit<Diagnostic, "range"> & {
+        range?: LSPRange
+    };
+};
 
 export interface FullDocumentDiagnosticReport {
     kind: "full";

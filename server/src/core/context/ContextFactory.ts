@@ -1,10 +1,10 @@
 import { AcceptableMethodName, ModuleContext } from "@/types/module.types";
-import { DiagnosticContext } from "./DiagnosticContext";
+import { DiagnosticReportContext } from "./DiagnosticReportContext";
 
 export default class ContextFactory {
 
     static create(methodName: AcceptableMethodName): ModuleContext {
-        return new DiagnosticContext();
+        return new DiagnosticReportContext();
     }
 
 }

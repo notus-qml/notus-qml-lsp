@@ -3,7 +3,7 @@ import "module-alias/register"
 import TreeSitterEngine from "@/core/ast/engine/TreeSitterEngine";
 import DocumentEngine from "./DocumentEngine";
 import { ASTTree } from "@/types/ast/ast.types";
-import { DiagnosticContext } from "@/core/context/DiagnosticContext";
+import { DiagnosticReportContext } from "@/core/context/DiagnosticReportContext";
 
 const test = new DocumentEngine(new TreeSitterEngine());
 
@@ -32,7 +32,7 @@ Window {
 
 console.log("test")
 
-const context = new DiagnosticContext()
+const context = new DiagnosticReportContext()
 
 test.setMethod("textDocument/diagnostic", context)
 test.analyze(tree.rootNode);

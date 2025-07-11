@@ -1,11 +1,11 @@
-export interface Point {
+export interface ASTPoint {
     row: number;
     column: number;
 }
 
-export interface Range {
-    startPosition: Point;
-    endPosition: Point;
+export interface ASTRange {
+    startPosition: ASTPoint;
+    endPosition: ASTPoint;
     startIndex: number;
     endIndex: number;
 }
@@ -18,8 +18,8 @@ export interface ASTNode {
     readonly value: string;
     readonly name: string;
 
-    readonly startPosition: Point;
-    readonly endPosition: Point;
+    readonly startPosition: ASTPoint;
+    readonly endPosition: ASTPoint;
     readonly startIndex: number;
     readonly endIndex: number;
 
@@ -51,16 +51,16 @@ export type Edit = {
     startIndex: number;
     oldEndIndex: number;
     newEndIndex: number;
-    startPosition: Point;
-    oldEndPosition: Point;
-    newEndPosition: Point;
+    startPosition: ASTPoint;
+    oldEndPosition: ASTPoint;
+    newEndPosition: ASTPoint;
 };
 
 export interface ASTTree {
 
     readonly rootNode: ASTNode;
 
-    rootNodeWithOffset(offsetBytes: number, offsetExtent: Point): ASTNode;
+    rootNodeWithOffset(offsetBytes: number, offsetExtent: ASTPoint): ASTNode;
     edit(edit: Edit): ASTTree;
     getText(node: ASTNode): string;
     getChangedRanges(other: ASTTree): Range[];

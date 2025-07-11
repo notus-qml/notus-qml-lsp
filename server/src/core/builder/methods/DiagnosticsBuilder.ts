@@ -1,4 +1,5 @@
-import { Diagnostic, FullDocumentDiagnosticReport } from "@/types/lsp/document.types";
+import { ASTNode } from "@/types/ast/ast.types";
+import { Diagnostic, DiagnosticContext, FullDocumentDiagnosticReport, LSPRange } from "@/types/lsp/document.types";
 
 export default class DiagnosticsBuilder {
 
@@ -8,8 +9,8 @@ export default class DiagnosticsBuilder {
         this.diagnostics = [];
     }
 
-    add(diagnostic: Diagnostic) {
-        this.diagnostics.push(diagnostic);
+    add(diagnostic: DiagnosticContext) {
+        this.diagnostics.push(this.handler(diagnostic));
     }
 
     clear() {
@@ -21,6 +22,29 @@ export default class DiagnosticsBuilder {
             kind: "full",
             items: this.diagnostics
         };
+    }
+
+    private handler(diagnostic: DiagnosticContext): Diagnostic {
+
+        if (diagnostic?.node) {
+            diagnostic.item.range = this.handlerNode(diagnostic.node)
+        }
+
+        return diagnostic.item as Diagnostic;
+
+    }
+
+    private handlerNode(node: ASTNode): LSPRange {
+        return {
+            start: {
+                line: node.startPosition.row,
+                character: node.startPosition.column
+            },
+            end: {
+                line: node.endPosition.row,
+                character: node.endPosition.column
+            }
+        }
     }
 
 }
