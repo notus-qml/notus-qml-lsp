@@ -23,7 +23,9 @@
   "author": "Luiz H.S",
   "license": "MIT",
   "devDependencies": {
+    "@types/lodash": "^4.17.20",
     "@types/node": "^20.0.0",
+    "lodash": "^4.17.21",
     "typescript": "^5.0.0"
   },
   "dependencies": {

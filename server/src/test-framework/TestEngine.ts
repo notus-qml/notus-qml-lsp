@@ -51,7 +51,7 @@ export class TestEngine {
         })
 
         if (testClasses.length === 0) {
-            throw new Error("😔 Case of test not founded!")
+            throw new Error("Case of test not founded!")
         }
     }
 
@@ -66,7 +66,7 @@ export class TestEngine {
         })
 
         if (tests.length === 0) {
-            throw new Error("😔 Test not founded!")
+            throw new Error("Test not founded!")
         }
     }
 

@@ -1,3 +1,4 @@
+// TODO change this file, this way of recovering is bad 
 export default {
     rules: {
         "textDocument/diagnostic": ["example-rule"],
@@ -9,12 +10,12 @@ export default {
         "initialize": []
     },
     plugins: {
-        "textDocument/diagnostic": ["example-plugin"],
-        "textDocument/completion": ["example-plugin"],
-        "textDocument/codeAction": ["example-plugin"],
-        "textDocument/didOpen": ["example-plugin"],
-        "textDocument/didChange": ["example-plugin"],
-        "textDocument/formatting": ["example-plugin"],
+        "textDocument/diagnostic": ["property-needs-prefix-plugin", "property-definition-needs-prefix-plugin"],
+        "textDocument/completion": ["property-needs-prefix-plugin"],
+        "textDocument/codeAction": ["property-needs-prefix-plugin"],
+        "textDocument/didOpen": ["property-needs-prefix-plugin"],
+        "textDocument/didChange": ["property-needs-prefix-plugin"],
+        "textDocument/formatting": ["property-needs-prefix-plugin"],
         "initialize": []
     }
 };

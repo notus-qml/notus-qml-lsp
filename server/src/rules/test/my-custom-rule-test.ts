@@ -1,7 +1,7 @@
 import { TestExecutor } from "@test/executor/TestExecutor";
-import { Test, compare, TestRule } from "@test/TestUtils";
+import { Test, compare, TestDiagnosticRule } from "@test/TestUtils";
 
-@TestRule("my-custom-rule")
+@TestDiagnosticRule("my-custom-rule")
 export class MyCustomRule {
 
     @Test('Test example')

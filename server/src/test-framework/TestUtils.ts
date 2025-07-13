@@ -1,9 +1,12 @@
 import { TestExecutor } from "./executor/TestExecutor";
-import { TestPluginExecutor } from "./executor/TestPluginExecutor";
-import { TestRuleExecutor } from "./executor/TestRuleExecutor";
+import { isEqual } from "lodash";
+import { TestDiagnosticExecutor } from "./executor/TestDiagnosticExecutor";
+
+import PluginVisitor from "@/core/ast/visitor/PluginVisitor";
+import RuleVisitor from "@/core/ast/visitor/RuleVisitor";
 
 export function compare(actual: any, expected: any) {
-    if (actual !== expected) {
+    if (!isEqual(actual, expected)) {
         throw new Error(`\n❌ Comparation failed\n\n[ACTUAL] ${actual}\n[EXPECTED] ${expected}`);
     }
 }
@@ -17,12 +20,12 @@ export function Test(name?: string) {
     };
 }
 
-export function TestPlugin(pluginName: string) {
-    return TestModule(new TestPluginExecutor(pluginName))
+export function TestDiagnosticPlugin(pluginName: string) {
+    return TestModule(new TestDiagnosticExecutor(pluginName, PluginVisitor))
 }
 
-export function TestRule(ruleName: string) {
-    return TestModule(new TestRuleExecutor(ruleName))
+export function TestDiagnosticRule(ruleName: string) {
+    return TestModule(new TestDiagnosticExecutor(ruleName, RuleVisitor))
 }
 
 function TestModule(testExecutor: TestExecutor) {

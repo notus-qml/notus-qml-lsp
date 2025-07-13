@@ -52,9 +52,7 @@ export class MethodDispatcher {
                 const result: any = this.methodEngine.execute(message.method, message)
 
                 if (result) {
-                    // TODO This is wrong, do not return capabilities with id
-                    // Create a handler for this, based on the method type
-                    this.handleStdout(message.id, result);
+                    this.handleResponse(message.id, result);
                 }
 
             } catch (error: any) {
@@ -68,7 +66,7 @@ export class MethodDispatcher {
                         .setMessage("Internal error: Failed to process request")
                         .build()
 
-                    this.handleStdout(message.id, result)
+                    this.handleResponse(message.id, result)
 
                 }
 
@@ -80,12 +78,16 @@ export class MethodDispatcher {
 
     }
 
-    handleStdout(id: RequestMessage['id'], result: object | null): string {
-        const message: string = JSON.stringify({ id, result });
-        return this.stdoutCallback(this.handleResponse(message));
+    handleNotification() {
+        // TODO implement
     }
 
-    private handleResponse(message: string): string {
+    handleResponse(id: RequestMessage['id'], result: object | null): string {
+        const message: string = JSON.stringify({ id, result });
+        return this.stdoutCallback(this.handleContentResponse(message));
+    }
+
+    private handleContentResponse(message: string): string {
         const messageLength = Buffer.byteLength(message, "utf-8");
         const header = `Content-Length: ${messageLength}\r\n\r\n`;
         const response = header + message;
