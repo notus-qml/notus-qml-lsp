@@ -3,7 +3,7 @@ import { DidOpenTextDocumentParams } from "@/types/lsp/document.types";
 import { RequestMessage } from "@/types/lsp/message.types";
 import { MethodHandler } from "@core/handler/MethodHandler";
 
-export class DidOpenHandler extends MethodHandler<any, any> {
+export class DidOpenHandler extends MethodHandler<RequestMessage, any> {
 
     constructor() {
         super('textDocument/didOpen');

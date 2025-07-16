@@ -1,6 +1,7 @@
 import { ModuleContext } from "@/types/module.types";
+import { FullDocumentDiagnosticReport } from "@/types/lsp/document.types";
+import { DiagnosticContext } from "@/types/report/report.types";
 import DiagnosticsBuilder from "../builder/methods/DiagnosticsBuilder";
-import { DiagnosticContext, FullDocumentDiagnosticReport } from "@/types/lsp/document.types";
 
 export class DiagnosticReportContext implements ModuleContext {
 
@@ -17,5 +18,10 @@ export class DiagnosticReportContext implements ModuleContext {
     result(): FullDocumentDiagnosticReport {
         return this.builder.build();
     }
+
+    getBuilder(): DiagnosticsBuilder {
+        return this.builder;
+    }
+
 
 }

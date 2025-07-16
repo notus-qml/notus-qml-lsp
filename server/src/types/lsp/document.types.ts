@@ -81,13 +81,6 @@ export interface Diagnostic {
     data?: LSPAny;
 }
 
-export interface DiagnosticContext {
-    node?: ASTNode;
-    item: Omit<Diagnostic, "range"> & {
-        range?: LSPRange
-    };
-};
-
 export interface FullDocumentDiagnosticReport {
     kind: "full";
     resultId?: string;
@@ -115,3 +108,30 @@ export interface RelatedUnchangedDocumentDiagnosticReport extends UnchangedDocum
 
 export type DocumentDiagnosticReport = RelatedFullDocumentDiagnosticReport | RelatedUnchangedDocumentDiagnosticReport;
 
+export interface CodeActionContext {
+    diagnostics: Diagnostic[];
+}
+
+export interface CodeActionParams {
+    textDocument: TextDocumentIdentifier;
+    range: LSPRange;
+    context: CodeActionContext;
+}
+
+export interface TextEdit {
+    range: LSPRange;
+    newText: string;
+}
+
+export interface WorkspaceEdit {
+    changes: {
+        [uri: DocumentURI]: TextEdit[]
+    }
+}
+
+export interface CodeAction {
+    title: string;
+    kind?: "quickfix"; // TODO replace for type
+    edit?: WorkspaceEdit;
+    data?: unknown;
+}

@@ -27,7 +27,25 @@ module.exports = {
                         node: nameNode,
                         item: {
                             message: "Property name needs a prefix!",
-                            severity: DiagnosticSeverity.Warning
+                            severity: DiagnosticSeverity.Warning,
+                            suggestions: [
+                                {
+                                    title: "Add '_' prefix on property",
+                                    items: [
+                                        {
+                                            newText: `_${nameNode.text}`
+                                        }
+                                    ]
+                                },
+                                {
+                                    title: "Add 'v' prefix on property",
+                                    items: [
+                                        {
+                                            newText: `v${nameNode.text[0].toUpperCase() + nameNode.text.slice(1)}`
+                                        }
+                                    ]
+                                }
+                            ]
                         }
                     });
                 }
