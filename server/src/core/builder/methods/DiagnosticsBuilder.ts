@@ -23,6 +23,7 @@ export default class DiagnosticsBuilder {
 
     clear() {
         this.diagnostics = [];
+        this.documentURI = "";
     }
 
     build(): FullDocumentDiagnosticReport {

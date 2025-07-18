@@ -4,8 +4,11 @@ import QML from "../../../../tree-sitter-qmljs";
 import { ASTTraverser } from "../traverser/ASTTraverser";
 import CompositeVisitor from "../visitor/CompositeVisitor";
 import { ASTNode, ASTTree } from "@/types/ast/ast.types";
-import { AcceptableMethodName, ModuleContext } from "@/types/module.types";
+import { ModuleContext } from "@/types/module.types";
 import { ASTVisitor } from "../visitor/ASTVisitor";
+import { DocumentURI, TextDocumentContentChangedEvent } from "@/types/lsp/document.types";
+import { TextUpdated } from "@/core/document/engine/DocumentEngine";
+import { LspMethod } from "@/types/core.types";
 const Parser = require("tree-sitter");
 
 export default class TreeSitterEngine extends ASTEngine {
@@ -32,7 +35,47 @@ export default class TreeSitterEngine extends ASTEngine {
         this.traverser.preOrder(node, this.visitor);
     }
 
-    setMethod(methodName: AcceptableMethodName, context: ModuleContext): void {
+    setMethod(methodName: LspMethod, context: ModuleContext): void {
         this.visitor.setMethod?.(methodName, context);
     }
+
+    updateTree(documentURI: DocumentURI, change: TextDocumentContentChangedEvent, textUpdated: TextUpdated): void {
+
+        const oldTree = this.getTree(documentURI)
+
+        const parserEdit = {
+            startIndex: textUpdated.startOffset,
+            oldEndIndex: textUpdated.endOffset,
+            newEndIndex: textUpdated.startOffset + change.text.length,
+            startPosition: { row: change.range.start.line, column: change.range.start.character },
+            oldEndPosition: { row: change.range.end.line, column: change.range.end.character },
+            newEndPosition: this.newEndPosition(change.range.start, change.text),
+        };
+
+        oldTree?.edit(parserEdit);
+
+        var newTree = this.parser.parse(textUpdated.text, oldTree);
+
+        this.setTree(documentURI, newTree)
+
+    };
+
+    newEndPosition(start: { line: number; character: number }, insertedText: string) {
+
+        const lines = insertedText.split(/\r?\n/);
+
+        if (lines.length === 1) {
+            return {
+                row: start.line,
+                column: start.character + insertedText.length
+            };
+        }
+
+        return {
+            row: start.line + lines.length - 1,
+            column: lines[lines.length - 1].length
+        };
+
+    }
+
 }

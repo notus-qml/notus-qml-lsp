@@ -16,7 +16,9 @@ export class DiagnosticReportContext implements ModuleContext {
     }
 
     result(): FullDocumentDiagnosticReport {
-        return this.builder.build();
+        const result = this.builder.build();
+        this.builder.clear();
+        return result;
     }
 
     getBuilder(): DiagnosticsBuilder {

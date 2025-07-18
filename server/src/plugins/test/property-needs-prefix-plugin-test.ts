@@ -24,7 +24,26 @@ export class PropertyNeedsPrefixPluginTest {
                 `,
                 report: function (data: any) {
                     compare(data.item, {
-                        message: 'Property name needs a prefix!', severity: 2
+                        message: "Property name needs a prefix!",
+                        severity: 2,
+                        suggestions: [
+                            {
+                                title: "Add '_' prefix on property",
+                                items: [
+                                    {
+                                        "newText": "_isRed"
+                                    }
+                                ]
+                            },
+                            {
+                                title: "Add 'v' prefix on property",
+                                items: [
+                                    {
+                                        "newText": "vIsRed"
+                                    }
+                                ]
+                            }
+                        ]
                     });
                 }
             }

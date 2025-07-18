@@ -1,7 +1,8 @@
 import { ASTNode } from "@/types/ast/ast.types";
 import { ASTVisitor } from "./ASTVisitor";
 import { PluginEngine } from "@/core/engine/module/PluginEngine";
-import { AcceptableMethodName, ModuleContext } from "@/types/module.types";
+import { ModuleContext } from "@/types/module.types";
+import { LspMethod } from "@/types/core.types";
 
 export default class PluginVisitor implements ASTVisitor {
 
@@ -19,7 +20,7 @@ export default class PluginVisitor implements ASTVisitor {
 
     }
 
-    setMethod(methodName: AcceptableMethodName, context: ModuleContext) {
+    setMethod(methodName: LspMethod, context: ModuleContext) {
         this.puglinEngine.setHandlersByMethod(methodName, context)
     }
 }

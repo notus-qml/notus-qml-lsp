@@ -34,7 +34,8 @@
     "cpx": "^1.5.0",
     "module-alias": "^2.2.3",
     "tree-sitter": "^0.25.0",
-    "tsconfig-paths": "^4.2.0"
+    "tsconfig-paths": "^4.2.0",
+    "vscode-uri": "^3.1.0"
   },
   "_moduleAliases": {
     "@": "./build",

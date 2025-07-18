@@ -4,6 +4,7 @@ import { TestCase } from "@test/types/test.types";
 import TreeSitterEngine from "@/core/ast/engine/TreeSitterEngine";
 import { ASTTraverser } from "@/core/ast/traverser/ASTTraverser";
 import { ASTVisitor } from "@/core/ast/visitor/ASTVisitor";
+import { LspMethod } from "@/types/core.types";
 
 export class TestDiagnosticExecutor extends TestExecutor {
 
@@ -53,9 +54,9 @@ export class TestDiagnosticExecutor extends TestExecutor {
 
         const transverser = new ASTTraverser();
 
-        const visitor = new this.VisitorType()
+        const visitor = new this.VisitorType();
 
-        visitor?.setMethod?.('textDocument/diagnostic', context)
+        visitor?.setMethod?.(LspMethod.Diagnostic, context);
 
         transverser.preOrder(tree.rootNode, visitor);
 

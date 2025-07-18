@@ -23,7 +23,9 @@ export class MethodEngine {
         this.methodRegistry.register("textDocument/codeAction", new CodeActionHandler());
         this.methodRegistry.register("textDocument/didOpen", new DidOpenHandler());
         this.methodRegistry.register("textDocument/didChange", new DidChangeHandler());
-        this.methodRegistry.register("textDocument/formatting", new FormattingHandler());
+
+        // TODO Uncomment when implementing it, if it doesn't return a response to the IDE, it won't save the file.
+        // this.methodRegistry.register("textDocument/formatting", new FormattingHandler());
 
         const registeredMethods = [
             'initialize',

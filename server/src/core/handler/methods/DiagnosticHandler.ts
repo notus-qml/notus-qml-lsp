@@ -1,5 +1,6 @@
 import { DiagnosticReportContext } from "@/core/context/DiagnosticReportContext";
 import DocumentEngine from "@/core/document/engine/DocumentEngine";
+import { LspMethod } from "@/types/core.types";
 import { DocumentDiagnosticParams, FullDocumentDiagnosticReport } from "@/types/lsp/document.types";
 import { RequestMessage } from "@/types/lsp/message.types";
 import { MethodHandler } from "@core/handler/MethodHandler";
@@ -7,7 +8,7 @@ import { MethodHandler } from "@core/handler/MethodHandler";
 export class DiagnosticHandler extends MethodHandler<RequestMessage, FullDocumentDiagnosticReport | null> {
 
     constructor() {
-        super('textDocument/diagnostic', new DiagnosticReportContext());
+        super(LspMethod.Diagnostic, new DiagnosticReportContext());
     }
 
     protected handleExecute(request: RequestMessage, documentEngine: DocumentEngine): FullDocumentDiagnosticReport | null {

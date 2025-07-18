@@ -1,6 +1,6 @@
-import ContextFactory from "@/core/context/ContextFactory";
 import { ASTNode } from "@/types/ast/ast.types";
-import { AcceptableMethodName, ModuleContext, NodeModuleType, Plugin, Rule } from "@/types/module.types";
+import { LspMethod } from "@/types/core.types";
+import { ModuleContext, NodeModuleType, Plugin, Rule } from "@/types/module.types";
 
 type ModuleType = Plugin | Rule;
 export type HandlerType = (node: any) => void;
@@ -8,7 +8,7 @@ export type HandlerType = (node: any) => void;
 export abstract class ModuleEngine<T extends ModuleType> {
 
     protected cache: Map<string, T>;
-    protected handlersByMethod: Map<AcceptableMethodName, Map<NodeModuleType, HandlerType[]>>
+    protected handlersByMethod: Map<LspMethod, Map<NodeModuleType, HandlerType[]>>
     protected context: ModuleContext;
     protected handlers: Map<NodeModuleType, HandlerType[]> | undefined;
 
@@ -20,9 +20,9 @@ export abstract class ModuleEngine<T extends ModuleType> {
     }
 
     protected abstract load(methodName: string): T;
-    protected abstract namesByMethod(methodName: AcceptableMethodName): string[] | never[];
+    protected abstract namesByMethod(methodName: LspMethod): string[] | never[];
 
-    setHandlersByMethod(methodName: AcceptableMethodName, context: ModuleContext): void {
+    setHandlersByMethod(methodName: LspMethod, context: ModuleContext): void {
 
         if (!methodName) {
             return;

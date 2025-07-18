@@ -2,7 +2,8 @@ import { ASTNode } from "@/types/ast/ast.types";
 import { ASTVisitor } from "./ASTVisitor";
 import PluginVisitor from "./PluginVisitor";
 import RuleVisitor from "./RuleVisitor";
-import { AcceptableMethodName, ModuleContext } from "@/types/module.types";
+import { ModuleContext } from "@/types/module.types";
+import { LspMethod } from "@/types/core.types";
 
 export default class CompositeVisitor implements ASTVisitor {
 
@@ -21,7 +22,7 @@ export default class CompositeVisitor implements ASTVisitor {
         })
     }
 
-    setMethod(methodName: AcceptableMethodName, context: ModuleContext) {
+    setMethod(methodName: LspMethod, context: ModuleContext) {
         this.visitors.forEach((visitor) => {
             visitor?.setMethod?.(methodName, context);
         })

@@ -1,3 +1,5 @@
+import { DocumentURI, LSPAny } from "./document.types";
+
 type ServerCpabilities = Record<string, unknown>;
 
 export interface ServerInformation {
@@ -8,4 +10,28 @@ export interface ServerInformation {
 export interface InitializeResult {
     capabilities: ServerCpabilities;
     serverInfo?: ServerInformation;
+}
+
+type ProgressToken = number | string;
+
+export interface WorkDoneProgressParams {
+    workDoneToken?: ProgressToken;
+}
+
+export interface InitializeParams extends WorkDoneProgressParams {
+
+    processId: number | null;
+
+    clientInfo?: {
+        name: string;
+        version?: string;
+    };
+
+    locale?: string;
+    rootPath?: string | null;
+    rootUri: DocumentURI | null;
+    initializationOptions?: LSPAny;
+    // capabilities: ClientCapabilities;
+    // trace?: TraceValue;
+    // workspaceFolders?: WorkspaceFolder[] | null;
 }

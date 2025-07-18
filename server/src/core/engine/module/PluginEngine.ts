@@ -1,8 +1,9 @@
-import methods from '@/methods';
 import { ModuleEngine } from './ModuleEngine';
-import { AcceptableMethodName, Plugin, PluginContext } from '@/types/module.types';
+import { Plugin, PluginContext } from '@/types/module.types';
 import { PluginBuilder } from '@core/builder/PluginBuilder';
 import { RequireManager } from '@core/manager/RequireManager';
+import Application from '@/core/singleton/Application';
+import { LspMethod } from '@/types/core.types';
 
 export class PluginEngine extends ModuleEngine<Plugin> {
 
@@ -14,13 +15,13 @@ export class PluginEngine extends ModuleEngine<Plugin> {
         return RequireManager.byPath<Plugin>(`../../plugins/${pluginName}`);
     }
 
-    namesByMethod(methodName: AcceptableMethodName): string[] {
+    namesByMethod(methodName: LspMethod): string[] {
 
         if (!methodName) {
             return [];
         }
 
-        return methods.plugins[methodName] || [];
+        return Application.configs?.plugins[methodName] ?? [];
     };
 
 }

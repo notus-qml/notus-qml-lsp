@@ -135,3 +135,18 @@ export interface CodeAction {
     edit?: WorkspaceEdit;
     data?: unknown;
 }
+
+export interface VersionedTextDocumentIdentifier extends TextDocumentIdentifier {
+    version: number;
+}
+
+export interface TextDocumentContentChangedEvent {
+    text: string;
+    range: LSPRange;
+    rangeLength: number;
+}
+
+export interface DidChangeTextDocumentParams {
+    textDocument: VersionedTextDocumentIdentifier;
+    contentChanges: TextDocumentContentChangedEvent[];
+}

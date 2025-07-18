@@ -4,10 +4,14 @@ import { TestDiagnosticExecutor } from "./executor/TestDiagnosticExecutor";
 
 import PluginVisitor from "@/core/ast/visitor/PluginVisitor";
 import RuleVisitor from "@/core/ast/visitor/RuleVisitor";
+import Application from "@/core/singleton/Application";
+import { LspMethod } from "@/types/core.types";
 
 export function compare(actual: any, expected: any) {
     if (!isEqual(actual, expected)) {
-        throw new Error(`\n❌ Comparation failed\n\n[ACTUAL] ${actual}\n[EXPECTED] ${expected}`);
+        throw new Error(
+            `\n❌ Comparison failed\n\n[ACTUAL] ${JSON.stringify(actual, null, 2)}\n[EXPECTED] ${JSON.stringify(expected, null, 2)}`
+        );
     }
 }
 
@@ -21,10 +25,22 @@ export function Test(name?: string) {
 }
 
 export function TestDiagnosticPlugin(pluginName: string) {
+    Application.setConfigs({
+        plugins: {
+            [LspMethod.Diagnostic]: [pluginName]
+        },
+        rules: {}
+    })
     return TestModule(new TestDiagnosticExecutor(pluginName, PluginVisitor))
 }
 
 export function TestDiagnosticRule(ruleName: string) {
+    Application.setConfigs({
+        rules: {
+            [LspMethod.Diagnostic]: [ruleName]
+        },
+        plugins: {}
+    })
     return TestModule(new TestDiagnosticExecutor(ruleName, RuleVisitor))
 }
 

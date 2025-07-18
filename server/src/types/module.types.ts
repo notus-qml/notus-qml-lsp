@@ -1,5 +1,3 @@
-import methods from "@/methods";
-
 export interface ModuleContext {
     log: (message: string) => void;
     report: (data: any) => void;
@@ -39,5 +37,3 @@ export const NodeModuleType = {
 } as const;
 
 export type NodeModuleType = typeof NodeModuleType[keyof typeof NodeModuleType];
-
-export type AcceptableMethodName = keyof typeof methods.rules | keyof typeof methods.plugins | undefined;

@@ -1,4 +1,5 @@
 import DocumentEngine from "@/core/document/engine/DocumentEngine";
+import { LspMethod } from "@/types/core.types";
 import { CodeAction, CodeActionParams, Diagnostic } from "@/types/lsp/document.types";
 import { RequestMessage } from "@/types/lsp/message.types";
 import { MethodHandler } from "@core/handler/MethodHandler";
@@ -6,7 +7,7 @@ import { MethodHandler } from "@core/handler/MethodHandler";
 export class CodeActionHandler extends MethodHandler<RequestMessage, CodeAction[]> {
 
     constructor() {
-        super('textDocument/codeAction');
+        super(LspMethod.CodeAction);
     }
 
     protected handleExecute(request: RequestMessage, documentEngine: DocumentEngine): CodeAction[] {

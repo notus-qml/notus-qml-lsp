@@ -1,12 +1,13 @@
-import { AcceptableMethodName, ModuleContext } from "@/types/module.types";
+import { ModuleContext } from "@/types/module.types";
 import DocumentEngine from "../document/engine/DocumentEngine";
+import { LspMethod } from "@/types/core.types";
 
 export abstract class MethodHandler<TParams, TResult> {
 
-    protected methodName: AcceptableMethodName | undefined;
+    protected methodName: LspMethod;
     protected context: ModuleContext | undefined;
 
-    constructor(methodName: AcceptableMethodName, context?: ModuleContext) {
+    constructor(methodName: LspMethod, context?: ModuleContext) {
         this.methodName = methodName;
         this.context = context;
     }
