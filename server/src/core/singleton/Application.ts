@@ -1,4 +1,4 @@
-import { LspConfig } from "@/types/core.types";
+import { LspConfig, Snippets } from "@/types/core.types";
 
 export class Application {
 
@@ -6,15 +6,25 @@ export class Application {
     public readonly version: string;
 
     public configs: LspConfig | null;
+    public snippets: Snippets | null;
 
     constructor() {
         this.name = "Notus QML";
         this.version = "0.0.1";
         this.configs = null;
+        this.snippets = null;
     }
 
     setConfigs(configs: LspConfig) {
         this.configs = configs;
+    }
+
+    setSnippets(snippets: Snippets | null) {
+        this.snippets = snippets;
+    }
+
+    getSnippets() {
+        return this.snippets;
     }
 
 }

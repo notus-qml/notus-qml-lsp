@@ -1,4 +1,9 @@
-import "module-alias/register"
+import { addAlias } from 'module-alias';
+
+addAlias('@', __dirname + '/');
+addAlias('@core', __dirname + '/core');
+addAlias('@test', __dirname + '/test-framework');
+
 import { MethodDispatcher } from "@core/dispatcher/MethodDispatcher"
 import { LoggerConfig } from "@core/logger/LoggerConfig"
 import { logger } from "@core/logger/Logger"

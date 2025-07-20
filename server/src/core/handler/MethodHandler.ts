@@ -12,7 +12,7 @@ export abstract class MethodHandler<TParams, TResult> {
         this.context = context;
     }
 
-    public execute(params: TParams, documentEngine: DocumentEngine): TResult {
+    public async execute(params: TParams, documentEngine: DocumentEngine): Promise<TResult> {
 
         if (this.context) {
             documentEngine.setMethod(this.methodName, this.context);
@@ -21,7 +21,7 @@ export abstract class MethodHandler<TParams, TResult> {
         return this.handleExecute(params, documentEngine);
     }
 
-    protected handleExecute(params: TParams, documentEngine: DocumentEngine): TResult {
+    protected async handleExecute(params: TParams, documentEngine: DocumentEngine): Promise<TResult> {
         return undefined as TResult;
     }
 

@@ -20,7 +20,7 @@ export class MethodDispatcher {
         logger.info('MethodDispatcher', 'Initialized successfully');
     }
 
-    handleStdin(chunk: string) {
+    async handleStdin(chunk: string) {
 
         this.buffer += chunk;
 
@@ -49,7 +49,7 @@ export class MethodDispatcher {
                     params: message.params
                 });
 
-                const result: any = this.methodEngine.execute(message.method, message)
+                const result: any = await this.methodEngine.execute(message.method, message)
 
                 if (result) {
                     this.handleResponse(message.id, result);

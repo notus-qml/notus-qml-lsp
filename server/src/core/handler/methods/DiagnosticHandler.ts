@@ -11,7 +11,7 @@ export class DiagnosticHandler extends MethodHandler<RequestMessage, FullDocumen
         super(LspMethod.Diagnostic, new DiagnosticReportContext());
     }
 
-    protected handleExecute(request: RequestMessage, documentEngine: DocumentEngine): FullDocumentDiagnosticReport | null {
+    protected async handleExecute(request: RequestMessage, documentEngine: DocumentEngine): Promise<FullDocumentDiagnosticReport | null> {
 
         const diagnosticReportContext = this.context as DiagnosticReportContext;
 

@@ -8,7 +8,7 @@ export class FormattingHandler extends MethodHandler<any, any> {
         super(LspMethod.Formatting);
     }
 
-    protected handleExecute(params: any, documentEngine: DocumentEngine): any {
+    protected async handleExecute(params: any, documentEngine: DocumentEngine): Promise<any> {
         // ADD LOGIC HERE
         return null;
     }

@@ -40,7 +40,7 @@ export class MethodEngine {
         logger.info('MethodEngine', 'Registered methods', { methods: registeredMethods });
     }
 
-    public execute(methodName: string, params: any): any {
+    public async execute(methodName: string, params: any): Promise<any> {
 
         logger.info('MethodEngine', 'Executing method', { method: methodName });
 
@@ -68,7 +68,7 @@ export class MethodEngine {
         });
 
         try {
-            const result = handler.execute(params, this.documentEngine);
+            const result = await handler.execute(params, this.documentEngine);
             logger.debug('MethodEngine', 'Handler executed successfully', {
                 method: methodName,
                 result

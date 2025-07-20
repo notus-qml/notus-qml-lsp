@@ -1,16 +1,47 @@
 import DocumentEngine from "@/core/document/engine/DocumentEngine";
 import { LspMethod } from "@/types/core.types";
+import { CompletionList, CompletionParams } from "@/types/lsp/document.types";
+import { RequestMessage } from "@/types/lsp/message.types";
 import { MethodHandler } from "@core/handler/MethodHandler";
+import SnippetsHandler from "../snippets/SnippetsHandler";
 
-export class CompletitionHandler extends MethodHandler<any, any> {
+export class CompletitionHandler extends MethodHandler<RequestMessage, CompletionList | null> {
+
+    private snippetsHandler: SnippetsHandler;
 
     constructor() {
         super(LspMethod.Completion);
+        this.snippetsHandler = new SnippetsHandler();
     }
 
-    protected handleExecute(params: any, documentEngine: DocumentEngine): any {
-        // ADD LOGIC HERE
-        return null;
+    private getCurrentPrefix(params: CompletionParams, document: string) {
+        const currentLine = document?.split("\n")[params.position.line]
+        const lineUntilCursor = currentLine.slice(0, params.position.character);
+        const currentPrefix = lineUntilCursor.trim();
+        return currentPrefix;
+    }
+
+    protected async handleExecute(request: RequestMessage, documentEngine: DocumentEngine): Promise<CompletionList | null> {
+
+        const params = request.params as CompletionParams;
+        const document = documentEngine.getDocument(params.textDocument.uri);
+
+        if (!document) {
+            return null;
+        }
+
+        const currentPrefix = this.getCurrentPrefix(params, document);
+
+        const completitions = this.snippetsHandler.handle(params, currentPrefix);
+
+        if (completitions) {
+            return completitions;
+        }
+
+        return {
+            isIncomplete: false,
+            items: []
+        }
     }
 
 }

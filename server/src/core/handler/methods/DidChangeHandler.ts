@@ -10,7 +10,7 @@ export class DidChangeHandler extends MethodHandler<NotificationMessage, null> {
         super(LspMethod.DidChange);
     }
 
-    protected handleExecute(request: NotificationMessage, documentEngine: DocumentEngine): null {
+    protected async handleExecute(request: NotificationMessage, documentEngine: DocumentEngine): Promise<null> {
 
         const params = request.params as DidChangeTextDocumentParams;
 

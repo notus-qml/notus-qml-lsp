@@ -10,7 +10,7 @@ export class DidOpenHandler extends MethodHandler<RequestMessage, any> {
         super(LspMethod.DidOpen);
     }
 
-    protected handleExecute(request: RequestMessage, documentEngine: DocumentEngine): any {
+    protected async handleExecute(request: RequestMessage, documentEngine: DocumentEngine): Promise<any> {
 
         const params = request.params as DidOpenTextDocumentParams;
 

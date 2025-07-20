@@ -26,6 +26,11 @@ export class InitializeResultBuilder {
         return this;
     }
 
+    enableCompletion(): this {
+        this.result.capabilities!.completionProvider = {};
+        return this;
+    }
+
     setTextDocumentSync(syncKind: TextDocumentSyncKind): this {
         this.result.capabilities!.textDocumentSync = syncKind;
         return this;

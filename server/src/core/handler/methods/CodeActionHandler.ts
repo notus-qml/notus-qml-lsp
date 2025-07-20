@@ -10,7 +10,7 @@ export class CodeActionHandler extends MethodHandler<RequestMessage, CodeAction[
         super(LspMethod.CodeAction);
     }
 
-    protected handleExecute(request: RequestMessage, documentEngine: DocumentEngine): CodeAction[] {
+    protected async handleExecute(request: RequestMessage, documentEngine: DocumentEngine): Promise<CodeAction[]> {
 
         const params = request.params as CodeActionParams;
 

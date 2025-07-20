@@ -6,13 +6,14 @@
   "type": "commonjs",
   "scripts": {
     "copy:templates": "cpx \"tools/module-generator/templates/files/**/*\" build/tools/module-generator/templates/files",
-    "build": "tsc && npm run copy:templates",
+    "build": "tsc && tsc-alias && npm run copy:templates",
     "build:tools": "tsc -p tools/tsconfig.json",
     "start": "npm run build && node ./build/server.js",
     "test": "npm run build && node ./build/test-framework/TestCLI.js",
     "cli:generator": "npm run build:tools && node ./build/tools/module-generator/ModuleGeneratorCLI.js",
     "dev": "tsc --watch",
-    "watch": "tsc -w"
+    "watch": "tsc -w",
+    "package": "pkg . --targets node*-win-x64 --output ../bin/qml-language.exe"
   },
   "keywords": [
     "typescript",
@@ -26,6 +27,7 @@
     "@types/lodash": "^4.17.20",
     "@types/node": "^20.0.0",
     "lodash": "^4.17.21",
+    "tsc-alias": "^1.8.16",
     "typescript": "^5.0.0"
   },
   "dependencies": {
@@ -37,9 +39,13 @@
     "tsconfig-paths": "^4.2.0",
     "vscode-uri": "^3.1.0"
   },
-  "_moduleAliases": {
-    "@": "./build",
-    "@core": "./build/core",
-    "@test": "./build/test-framework"
+  "pkg": {
+    "scripts": "build/**/*.js",
+    "assets": [
+      "tree-sitter-qmljs/win32-x64/prebuilds/**/*"
+    ]
+  },
+  "bin": {
+    "qml-language": "./build/server.js"
   }
 }
