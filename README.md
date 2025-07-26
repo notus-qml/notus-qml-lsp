@@ -7,7 +7,7 @@
   [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
   [![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
   [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
-  [![Version](https://img.shields.io/badge/version-1.0.0-green.svg?style=for-the-badge)](https://github.com/your-username/notus-qml/releases)
+  [![Version](https://img.shields.io/badge/version-0.0.1-green.svg?style=for-the-badge)](https://github.com/your-username/notus-qml/releases)
 </div>
 
 ---
@@ -135,6 +135,8 @@ notus-qml/
 ### Creating a Plugin
 
 Use the CLI generator to create a new plugin:
+
+> OBS: Now is outdated generate by CLI
 
 ```bash
 cd server
@@ -271,6 +273,97 @@ module.exports = {
 
 ## Testing
 
+> Creating a test
+
+When using the CLI, two files will be created, the plugin or rule file, and a test file.
+To test the implemented rules or plugins, the project provides some functionalities, the main ones being `TestExecutor` and `TestUtils`.
+
+>Test Executor
+>> Represents the class responsible for executing the tests
+        
+>Test Utils
+>> Provides functionality for recording tests, as well as comparison methods.
+
+The test class knows which extension it tests through the TestDiagnosticPlugin decorator.
+
+- Example
+```
+import { TestExecutor } from "@test/executor/TestExecutor";
+import { Test, compare, TestDiagnosticPlugin } from "@test/TestUtils";
+
+@TestDiagnosticPlugin("property-needs-prefix-plugin")
+export class PropertyNeedsPrefixPluginTest {
+
+    @Test('Needs prefix test')
+    needsPrefixTest(executor: TestExecutor) {
+
+        executor.addCase(
+            {
+                name: "Variable declaration invalid",
+                code: `
+                    Window {
+                        id: root
+                        width: 200
+                        height: 100
+                        color: isRed ? "red" : "blue"
+                        visible: true
+
+                        property bool isRed: true
+
+                    }
+                `,
+                report: function (data: any) {
+                    compare(data.item, {
+                        message: "Property name needs a prefix!",
+                        severity: 2,
+                        suggestions: [
+                            {
+                                title: "Add '_' prefix on property",
+                                items: [
+                                    {
+                                        "newText": "_isRed"
+                                    }
+                                ]
+                            },
+                            {
+                                title: "Add 'v' prefix on property",
+                                items: [
+                                    {
+                                        "newText": "vIsRed"
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                }
+            }
+        )
+
+        executor.addCase(
+            {
+                name: "Variable declaration valid, prefix 'v'",
+                code: `
+                    Window {
+                        id: root
+                        width: 200
+                        height: 100
+                        color: vIsRed ? "red" : "blue"
+                        visible: true
+
+                        property bool vIsRed: true
+
+                    }
+                `,
+            }
+        )
+
+        executor.run();
+    }
+
+}
+```
+
+
 ### Running Tests
 ```bash
 cd server
@@ -340,6 +433,7 @@ The project uses a modular architecture with:
 - [Test Framework Guide (tests, structure, and examples)](server/src/test-framework/README.md)
 - [Module Generator Guide (CLI templates and usage)](server/tools/module-generator/README.md)
 - [ASTNodeFinder Guide (finding nodes in AST)](server/src/core/ast/finder/README.md)
+- [QMet](https://github.com/luizh3/qmet)
 
 ## 🛠️ Tools
 
@@ -365,6 +459,18 @@ Utility class for finding specific nodes in the AST:
 - Search for properties and object definitions
 - Recursive node traversal
 - Type-safe and maintainable code
+
+### Observations / Evolutions
+
+- For now, plugins and rules are files, but in the future they will become packages.
+- The testing framework and CLI will be migrated to separate packages late.
+- For now, plugins and rules depend on `core`, this will be resolved soon by separating the packages.
+
+---
+
+### Diagnotic Example
+
+![diagnostic_example.gif](server/documentation/diagnostic_example.gif)
 
 ---
 

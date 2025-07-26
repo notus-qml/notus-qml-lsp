@@ -1,6 +1,6 @@
 import Application from "@/core/singleton/Application";
 import { SnippetBody, SnippetsByPrefix } from "@/types/core.types";
-import { CompletionItemKind, CompletionList, CompletionParams, InsertTextFormat } from "@/types/lsp/document.types";
+import { CompletionItem, CompletionItemKind, CompletionList, CompletionParams, InsertTextFormat } from "@/types/lsp/document.types";
 
 export default class SnippetsHandler {
 
@@ -38,7 +38,7 @@ export default class SnippetsHandler {
 
     }
 
-    handle(params: CompletionParams, prefix: string): CompletionList | null {
+    handle(params: CompletionParams, prefix: string): CompletionItem[] | null {
 
         if (!this.bindSnippets()) {
             return null;
@@ -52,32 +52,29 @@ export default class SnippetsHandler {
 
         const [key, snippetData]: [string, SnippetBody] = Object.entries(snippet)[0];
 
-        const completionList: CompletionList = {
-            isIncomplete: false,
-            items: [
-                {
-                    label: prefix,
-                    detail: `Snippet: ${key}, snippetData.description`,
-                    kind: CompletionItemKind.Snippet,
-                    insertTextFormat: InsertTextFormat.Snippet,
-                    textEdit: {
-                        newText: snippetData.body.join("\n"),
-                        range: {
-                            start: {
-                                line: params.position.line,
-                                character: params.position.character - prefix.length
-                            },
-                            end: {
-                                line: params.position.line,
-                                character: params.position.character
-                            }
+        const items = [
+            {
+                label: prefix,
+                detail: `Snippet: ${key}, snippetData.description`,
+                kind: CompletionItemKind.Snippet,
+                insertTextFormat: InsertTextFormat.Snippet,
+                textEdit: {
+                    newText: snippetData.body.join("\n"),
+                    range: {
+                        start: {
+                            line: params.position.line,
+                            character: params.position.character - prefix.length
+                        },
+                        end: {
+                            line: params.position.line,
+                            character: params.position.character
                         }
                     }
                 }
-            ]
-        };
+            }
+        ]
 
-        return completionList;
+        return items;
 
     };
 
