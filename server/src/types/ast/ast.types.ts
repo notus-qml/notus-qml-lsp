@@ -68,3 +68,13 @@ export interface ASTTree {
     getEditedRange(): Range;
     printDotGraph(fd?: number): void;
 }
+
+export interface ASTQueryCapture {
+    name: string;
+    node: ASTNode;
+}
+
+export interface ASTQueryMatch {
+    pattern: number;
+    captures: ASTQueryCapture[];
+}

@@ -1,5 +1,3 @@
-import { ASTNode } from "../ast/ast.types";
-
 export namespace TextDocumentSyncKind {
     export const None: 0 = 0;
     export const Full: 1 = 1;
@@ -220,3 +218,23 @@ export interface CompletionList {
     isIncomplete: boolean;
     items: CompletionItem[];
 }
+
+type ProgressToken = number | string;
+
+export interface WorkDoneProgressParams {
+    workDoneToken?: ProgressToken;
+}
+
+export interface FormattingOptions {
+    tabSize: number;
+    insertSpaces: boolean;
+    trimTrailingWhitespace?: boolean;
+    insertFinalNewline?: boolean;
+    trimFinalNewlines?: boolean;
+}
+
+export interface DocumentFormattingParams extends WorkDoneProgressParams {
+    textDocument: TextDocumentIdentifier;
+    options: FormattingOptions;
+}
+

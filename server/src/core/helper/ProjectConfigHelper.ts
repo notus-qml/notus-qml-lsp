@@ -3,6 +3,23 @@ import { logger } from '../logger/Logger';
 import { LspConfig, LspMethod } from '@/types/core.types';
 import FileHelper from './FileHelper';
 
+// TODO remove
+// {
+//     regex: "\\bQt\\w*",
+//     order: 1,
+//     description: ""
+// },
+// {
+//     regex: "^[^\"]*$",
+//     order: 2,
+//     description: ""
+// },
+// {
+//     regex: "/\"/",
+//     order: 3,
+//     description: ""
+// }
+
 const DEFAULT_CONFIG: LspConfig = {
     rules: {
         [LspMethod.Diagnostic]: ["example-rule"],

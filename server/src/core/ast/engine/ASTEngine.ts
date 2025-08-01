@@ -1,4 +1,4 @@
-import { ASTNode, ASTTree } from "@/types/ast/ast.types";
+import { ASTNode, ASTQueryMatch, ASTTree } from "@/types/ast/ast.types";
 import { ASTTraverser } from "../traverser/ASTTraverser";
 import { ModuleContext } from "@/types/module.types";
 import { DocumentURI, TextDocumentContentChangedEvent } from "@/types/lsp/document.types";
@@ -32,4 +32,6 @@ export default abstract class ASTEngine {
     abstract parse(code: string): ASTTree;
     abstract analyze(node: ASTNode): void
     abstract setMethod(methodName: LspMethod, context: ModuleContext): void;
+    abstract query(node: ASTNode, queryCommand: string): ASTQueryMatch[];
+
 }

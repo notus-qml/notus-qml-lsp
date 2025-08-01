@@ -3,13 +3,14 @@ import ASTEngine from "@core/ast/engine/ASTEngine";
 import QML from "../../../../tree-sitter-qmljs";
 import { ASTTraverser } from "../traverser/ASTTraverser";
 import CompositeVisitor from "../visitor/CompositeVisitor";
-import { ASTNode, ASTTree } from "@/types/ast/ast.types";
+import { ASTNode, ASTQueryMatch, ASTTree } from "@/types/ast/ast.types";
 import { ModuleContext } from "@/types/module.types";
 import { ASTVisitor } from "../visitor/ASTVisitor";
 import { DocumentURI, TextDocumentContentChangedEvent } from "@/types/lsp/document.types";
 import { TextUpdated } from "@/core/document/engine/DocumentEngine";
 import { LspMethod } from "@/types/core.types";
-const Parser = require("tree-sitter");
+import Parser = require("tree-sitter");
+import Query = Parser.Query;
 
 export default class TreeSitterEngine extends ASTEngine {
 
@@ -77,5 +78,13 @@ export default class TreeSitterEngine extends ASTEngine {
         };
 
     }
+
+    query(node: ASTNode, queryCommand: string): ASTQueryMatch[] {
+        const query = new Query(QML as Parser.Language, queryCommand);
+        const syntaxNode = node as unknown as Parser.SyntaxNode;
+        const nodeString = syntaxNode.toString();
+        const matches = query.matches(syntaxNode);
+        return matches as unknown as ASTQueryMatch[];
+    };
 
 }

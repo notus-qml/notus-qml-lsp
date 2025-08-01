@@ -11,6 +11,7 @@ export enum LspMethod {
 export interface LspConfig {
     rules: Partial<Record<LspMethod, string[]>>;
     plugins: Partial<Record<LspMethod, string[]>>;
+    formatting?: FormattingImportGroupConfig[];
 }
 
 export interface SnippetBody {
@@ -21,3 +22,10 @@ export interface SnippetBody {
 
 export type SnippetsByPrefix = Record<string, Record<string, SnippetBody>>
 export type Snippets = Record<string, SnippetBody>
+
+export interface FormattingImportGroupConfig {
+    regex?: string;
+    prefix?: string[];
+    order: number;
+    description: string;
+}
