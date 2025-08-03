@@ -1,6 +1,4 @@
-import { MethodDispatcher } from "notus-qml-core"
-import { LoggerConfig } from "notus-qml-core"
-import { logger } from "notus-qml-core"
+import { MethodDispatcher, LoggerConfig, logger } from "notus-qml-core"
 
 LoggerConfig.initialize();
 

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { addAlias } from 'module-alias';
 
 addAlias('@test', __dirname + '/');
@@ -15,6 +17,7 @@ program
 program
     .option('-c, --class <className>', 'Run only a specific test class')
     .option('-t, --test <testName>', 'Run only a specific test')
+    .requiredOption('-p, --path <pathTest>', 'Path test');
 
 program.parse();
 
@@ -28,6 +31,7 @@ async function run() {
         await engine.run({
             filterClass: options.class,
             filterTest: options.test,
+            filterPath: options.path
         });
     } catch (exception) {
         console.error(`${exception instanceof Error ? exception.message : exception}`);

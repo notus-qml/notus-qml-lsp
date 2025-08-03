@@ -10,7 +10,8 @@ export class RuleEngine extends ModuleEngine<Rule> {
     }
 
     load(ruleName: string): Rule {
-        return RequireManager.byPath<Rule>(`../../rules/${ruleName}`);
+        // TODO change to absolute path
+        return RequireManager.byPath<Rule>(`../../../../notus-qml-rules/${ruleName}`);
     }
 
     namesByMethod(methodName: LspMethod): string[] {

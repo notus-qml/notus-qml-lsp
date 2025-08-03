@@ -9,15 +9,15 @@ export class TestEngine {
         return Promise.all(testFiles.map(testFile => import(testFile.path)));
     }
 
-    async load() {
+    async load(filterPath: string) {
 
-        // TODO add rules, change to absolute path
-        const pathsTest = ['../plugins/test', '../rules/test']
-        const extensionsAcceptable = ['.js', '.ts']
+        const pathsTest = [filterPath]
+        const extensionsAcceptable = ['.js']
 
         const testFiles: TestFile[] = pathsTest.flatMap((pathTest): TestFile[] => {
 
-            const dirPath = path.resolve(__dirname, pathTest);
+            const dirPath = path.resolve(process.cwd(), pathTest);
+
             const files = fs.readdirSync(dirPath)
 
             const testFiles: TestFile[] = files.map((file): TestFile => {
@@ -73,12 +73,14 @@ export class TestEngine {
     async run({
         filterClass,
         filterTest,
+        filterPath,
     }: {
         filterClass?: string;
         filterTest?: string;
+        filterPath: string
     }) {
 
-        var testClasses = await this.load();
+        var testClasses = await this.load(filterPath);
 
         this.applyFilterClass(filterClass, testClasses)
 

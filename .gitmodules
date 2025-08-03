@@ -1,0 +1,13 @@
+
+[submodule "server/packages/notus-qml-rules/use-qstr-translate-definition-rule"]
+	path = server/packages/notus-qml-rules/use-qstr-translate-definition-rule
+	url = git@github.com:notus-qml/use-qstr-translate-definition-rule.git
+[submodule "server/packages/notus-qml-rules/invalid-function-definition-rule"]
+	path = server/packages/notus-qml-rules/invalid-function-definition-rule
+	url = git@github.com:notus-qml/invalid-function-definition-rule.git
+[submodule "server/packages/notus-qml-rules/property-needs-prefix-rule"]
+	path = server/packages/notus-qml-rules/property-needs-prefix-rule
+	url = git@github.com:notus-qml/property-needs-prefix-rule.git
+[submodule "server/packages/notus-qml-rules/property-definition-needs-prefix-rule"]
+	path = server/packages/notus-qml-rules/property-definition-needs-prefix-rule
+	url = git@github.com:notus-qml/property-definition-needs-prefix-rule.git

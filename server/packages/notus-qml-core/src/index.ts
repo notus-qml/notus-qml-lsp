@@ -15,7 +15,7 @@ export * from "./core/context/DiagnosticReportContext"
 export * from "./core/ast/finder/ASTNodeFinder"
 
 export { default as PluginVisitor } from "./core/ast/visitor/PluginVisitor";
-export { default as RuleVisitor } from "./core/ast/visitor/PluginVisitor";
+export { default as RuleVisitor } from "./core/ast/visitor/RuleVisitor";
 
 export { default as DocumentEngine } from "./core/document/engine/DocumentEngine"
 export { default as TreeSitterEngine } from "./core/ast/engine/TreeSitterEngine"

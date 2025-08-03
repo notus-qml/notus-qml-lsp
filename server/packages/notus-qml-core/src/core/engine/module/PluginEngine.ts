@@ -10,7 +10,8 @@ export class PluginEngine extends ModuleEngine<Plugin> {
     }
 
     load(pluginName: string): Plugin {
-        return RequireManager.byPath<Plugin>(`../../plugins/${pluginName}`);
+        // TODO change to absolute path
+        return RequireManager.byPath<Plugin>(`../../../../notus-qml-plugins/${pluginName}`);
     }
 
     namesByMethod(methodName: LspMethod): string[] {
