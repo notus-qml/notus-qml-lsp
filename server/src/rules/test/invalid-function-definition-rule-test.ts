@@ -1,5 +1,4 @@
-import { TestExecutor } from "@test/executor/TestExecutor";
-import { Test, compare, TestDiagnosticRule } from "@test/TestUtils";
+import { TestExecutor, Test, compare, TestDiagnosticRule } from "notus-qml-test";
 
 @TestDiagnosticRule("invalid-function-definition-rule")
 export class InvalidFunctionDefinitionRule {

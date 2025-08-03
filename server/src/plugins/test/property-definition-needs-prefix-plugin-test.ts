@@ -1,5 +1,4 @@
-import { TestExecutor } from "@test/executor/TestExecutor";
-import { Test, compare, TestDiagnosticPlugin } from "@test/TestUtils";
+import { Test, compare, TestDiagnosticPlugin, TestExecutor } from "notus-qml-test";
 
 @TestDiagnosticPlugin("property-definition-needs-prefix-plugin")
 export class PropertyDefinitionNeedsPrefixTest {

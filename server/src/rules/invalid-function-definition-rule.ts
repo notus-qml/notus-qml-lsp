@@ -1,6 +1,5 @@
-import { DiagnosticReportContext } from "@/core/context/DiagnosticReportContext";
-import { ASTNode } from "@/types/ast/ast.types";
-import { DiagnosticSeverity } from "@/types/lsp/document.types";
+import { DiagnosticReportContext } from "notus-qml-core";
+import { ASTNode, DiagnosticSeverity } from "notus-qml-types";
 
 /** @type {import('../types/plugin').Plugin} */
 module.exports = {

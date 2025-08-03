@@ -1,7 +1,5 @@
-import { DiagnosticReportContext } from "@/core/context/DiagnosticReportContext";
-import { ASTNode } from "@/types/ast/ast.types";
-import { DiagnosticSeverity } from "@/types/lsp/document.types";
-import { ASTNodeFinder } from "@/core/ast/finder/ASTNodeFinder";
+import { DiagnosticReportContext, ASTNodeFinder } from "notus-qml-core";
+import { ASTNode, DiagnosticSeverity } from "notus-qml-types";
 
 // Ignora números, chaves internas, nomes técnicos
 function isHumanLike(str: string): boolean {

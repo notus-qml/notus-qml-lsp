@@ -48,5 +48,14 @@
   },
   "bin": {
     "qml-language": "./build/server.js"
-  }
+  },
+  "private": true,
+  "workspaces": [
+    "packages/notus-qml-core",
+    "packages/notus-qml-types",
+    "packages/notus-qml-test",
+    "packages/notus-qml-utils",
+    "packages/notus-qml-module-generator",
+    "packages/notus-qml-rules"
+  ]
 }
