@@ -1,5 +1,4 @@
-import { TestExecutor } from "@test/executor/TestExecutor";
-import { Test, compare, {{TestModule}} } from "@test/TestUtils";
+import { Test, compare, {{TestModule}}, TestExecutor } from "notus-qml-test";
 
 @{{TestModule}}("{{ModuleName}}")
 export class {{TestName}} {

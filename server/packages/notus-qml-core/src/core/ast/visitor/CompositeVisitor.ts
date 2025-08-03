@@ -26,10 +26,26 @@ export default class CompositeVisitor implements ASTVisitor {
         })
     }
 
+    removePluginVisitor(lspConfig: LspConfig) {
+
+        const hasPluginPath = lspConfig.paths?.plugin !== '';
+
+        if (!hasPluginPath) {
+            this.visitors = this.visitors.filter((visitor) => {
+                return !(visitor instanceof PluginVisitor)
+            })
+        }
+
+    }
+
     setLspConfig(lspConfig: LspConfig) {
+
+        this.removePluginVisitor(lspConfig);
+
         this.visitors.forEach((visitor) => {
             visitor?.setLspConfig?.(lspConfig);
         })
+
     }
 
 }

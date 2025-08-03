@@ -1,17 +1,14 @@
-import { DiagnosticReportContext } from "@/core/context/DiagnosticReportContext";
-import { ASTNode } from "@/types/ast/ast.types";
-import { DiagnosticSeverity } from "@/types/lsp/document.types";
-import { ASTNodeFinder } from "@/core/ast/finder/ASTNodeFinder";
+import { DiagnosticReportContext, ASTNodeFinder } from "notus-qml-core";
+import { ASTNode, DiagnosticSeverity } from "notus-qml-types";
 
-/** @type {import('../types/rule').Rule} */
 module.exports = {
     handlers: {
         '{{RuleName}}': {
             create: (context: DiagnosticReportContext) => ({
                 ui_property: (node: ASTNode) => {
-                    const finder = new ASTNodeFinder(node);
+                    const finder = new ASTNodeFinder();
 
-                    const identifierNode = finder.findChildByType('identifier');
+                    const identifierNode = finder.findChildByType(node, 'identifier');
 
                     if (!identifierNode) {
                         return;

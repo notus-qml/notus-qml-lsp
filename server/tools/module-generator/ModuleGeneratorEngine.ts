@@ -6,10 +6,9 @@ import { PluginTemplate } from './templates/PluginTemplate';
 import { RuleTemplate } from './templates/RuleTemplate';
 import { TestTemplate } from './templates/TestTemplate';
 import { FileInfo, ModuleType } from './types/module-generator.types';
-
-// TODO change to absolute path
-const rulesContextPath = "../../../src/rules"
-const pluginsContextPath = "../../../src/plugins"
+import { GitignoreTemplate } from './templates/GitIgnoteTemplate';
+import { TSConfigTemplate } from './templates/TSConfigTemplate';
+import { PackageTemplate } from './templates/PackageTemplate';
 
 export class ModuleGeneratorEngine {
 
@@ -30,10 +29,28 @@ export class ModuleGeneratorEngine {
         console.log(`✅ File created at ${fullPath}`);
     }
 
-    toModuleFileName(className: string): FileInfo {
+    createFolder(dirPath: string, folderName: string): string {
 
-        const parts: string[] = className.split(/(?=[A-Z])/);
-        const fileName = parts.join('-').toLowerCase();
+        const fullPath = path.join(dirPath, folderName);
+
+        if (fs.existsSync(fullPath)) {
+            throw new Error(`❌ Folder "${folderName}" already exists!`);
+        }
+
+        fs.mkdirSync(fullPath, { recursive: true });
+
+        console.log(`✅ Folder created at ${fullPath}`);
+
+        return fullPath;
+
+    }
+
+    toClassFileName(moduleName: string): FileInfo {
+
+        const parts: string[] = moduleName.split("-");
+        const fileName = parts.reduce((result, text) => {
+            return result + (text[0].toUpperCase() + text.slice(1))
+        }, "")
 
         return {
             name: fileName,
@@ -43,7 +60,7 @@ export class ModuleGeneratorEngine {
     }
 
     basePath(context: string) {
-        return path.resolve(__dirname, context);
+        return path.resolve(process.cwd(), context);
     }
 
     validSufix(value: string, sufix: string) {
@@ -55,58 +72,55 @@ export class ModuleGeneratorEngine {
         }
     }
 
-    createPlugin(className: string) {
+    createModule(moduleName: string, moduleType: string) {
 
-        this.validSufix(className, "plugin")
+        const ruleFolderPath = this.createFolder(this.basePath(""), moduleName);
 
-        const fileName: FileInfo = this.toModuleFileName(className);
-        const dirPath = this.basePath(pluginsContextPath);
-
-        this.createFile(dirPath, fileName.fullName, () => {
-            return PluginTemplate.create(fileName.name);
+        this.createFile(ruleFolderPath, ".gitignore", () => {
+            return GitignoreTemplate.create();
         });
 
-        this.createTest(fileName.name, className, ModuleType.PLUGIN);
-    }
-
-    createRule(className: string) {
-
-        this.validSufix(className, "rule")
-
-        const fileName = this.toModuleFileName(className);
-        const dirPath = this.basePath(rulesContextPath);
-
-        this.createFile(dirPath, fileName.fullName, () => {
-            return RuleTemplate.create(fileName.name);
+        this.createFile(ruleFolderPath, "tsconfig.json", () => {
+            return TSConfigTemplate.create();
         });
 
-        this.createTest(fileName.name, className, ModuleType.RULE);
-    }
+        this.createFile(ruleFolderPath, "package.json", () => {
+            return PackageTemplate.create(moduleName);
+        });
 
-    testPathByModule(moduleType: typeof ModuleType[keyof typeof ModuleType]) {
+        const sourceFolterPath = this.createFolder(ruleFolderPath, "src");
 
-        const map = new Map<string, string>([
-            [ModuleType.PLUGIN, pluginsContextPath],
-            [ModuleType.RULE, rulesContextPath]
-        ]);
+        this.createFile(sourceFolterPath, "index.ts", () => {
+            return PluginTemplate.create(moduleName);
+        });
 
-        const basePath = map.get(moduleType);
-
-        if (!basePath) {
-            throw new Error('Module type not suported');
-        }
-
-        return path.resolve(__dirname, path.join(basePath, 'test'))
+        this.createTest(sourceFolterPath, moduleName, moduleType);
 
     }
 
-    createTest(moduleName: string, className: string, moduleType: typeof ModuleType[keyof typeof ModuleType]) {
+    createPlugin(moduleName: string) {
 
-        const fileName = this.toModuleFileName(`${className}Test`);
-        const dirPath = this.testPathByModule(moduleType);
+        this.validSufix(moduleName, "plugin")
 
-        this.createFile(dirPath, fileName.fullName, () => {
-            return TestTemplate.create(className, moduleType, moduleName);
+        this.createModule(moduleName, ModuleType.PLUGIN);
+    }
+
+    createRule(moduleName: string) {
+
+        this.validSufix(moduleName, "rule")
+
+        this.createModule(moduleName, ModuleType.RULE);
+    }
+
+    createTest(dirPath: string, moduleName: string, moduleType: typeof ModuleType[keyof typeof ModuleType]) {
+
+        const testFolderPath = this.createFolder(dirPath, "test");
+
+        const fileName = `${moduleName}-test.ts`;
+        const className = this.toClassFileName(`test-${moduleName}`)
+
+        this.createFile(testFolderPath, fileName, () => {
+            return TestTemplate.create(className.name, moduleType, moduleName);
         });
 
     }

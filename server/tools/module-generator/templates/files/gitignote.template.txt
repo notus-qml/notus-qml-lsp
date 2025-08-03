@@ -1,0 +1,8 @@
+# Build directory
+build/
+
+# Dependencies
+node_modules/
+
+# Cache of build
+tsconfig.tsbuildinfo

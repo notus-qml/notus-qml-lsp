@@ -15,7 +15,7 @@ export class TemplateHelper {
 
     }
 
-    static create(templateName: string, keys: Map<string, string>) {
+    static create(templateName: string, keys: Map<string, string> = new Map()) {
 
         const templatePath = path.resolve(__dirname, `files/${templateName}`);
         const template = fs.readFileSync(templatePath, 'utf-8');
