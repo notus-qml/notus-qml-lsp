@@ -1,25 +1,31 @@
-import { TestExecutor } from "../../test-framework/executor/TestExecutor";
-import { Test, compare, {{TestModule}} } from "../../test-framework/TestUtils";
+import { TestExecutor } from "@test/executor/TestExecutor";
+import { Test, compare, {{TestModule}} } from "@test/TestUtils";
 
 @{{TestModule}}("{{ModuleName}}")
 export class {{TestName}} {
 
-    @Test('Test example')
+    @Test('')
     testExample(executor: TestExecutor) {
 
         executor.addCase(
             {
-                name: "Variable declaration valid",
-                code: { type: "VariableDeclarationTest", name: 'exampleVar123' },
-            }
-        )
-
-        executor.addCase(
-            {
-                name: "Variable declaration invalid",
-                code: { type: "VariableDeclaration", name: 'exampleVar' },
+                name: "",
+                code: ``,
                 report: function (data: any) {
-                    compare(data.message, `Avoid using "var" error`)
+                    compare(data.item, {
+                        message: "",
+                        severity: 0,
+                        suggestions: [
+                            {
+                                title: "",
+                                items: [
+                                    {
+                                        "newText": ""
+                                    }
+                                ]
+                            }
+                        ]
+                    });
                 }
             }
         )

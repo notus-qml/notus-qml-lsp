@@ -1,16 +1,39 @@
-/** @type Rule **/
+import { DiagnosticReportContext } from "@/core/context/DiagnosticReportContext";
+import { ASTNode } from "@/types/ast/ast.types";
+import { DiagnosticSeverity } from "@/types/lsp/document.types";
+import { ASTNodeFinder } from "@/core/ast/finder/ASTNodeFinder";
+
+/** @type {import('../types/rule').Rule} */
 module.exports = {
     handlers: {
         '{{RuleName}}': {
-            create: (context: any) => ({
-                VariableDeclaration: (node: any) => {
-                    context.log(`Visiting node: ${node.name}`);
-                    if (node.name === 'exampleVar') {
-                        context.report({
-                            message: 'Avoid using "var" error',
-                            node,
-                        });
+            create: (context: DiagnosticReportContext) => ({
+                ui_property: (node: ASTNode) => {
+                    const finder = new ASTNodeFinder(node);
+
+                    const identifierNode = finder.findChildByType('identifier');
+
+                    if (!identifierNode) {
+                        return;
                     }
+
+                    context.report({
+                        node: identifierNode,
+                        item: {
+                            message: "Report message",
+                            severity: DiagnosticSeverity.Warning,
+                            suggestions: [
+                                {
+                                    title: "",
+                                    items: [
+                                        {
+                                            newText: ""
+                                        }
+                                    ]
+                                },
+                            ]
+                        }
+                    });
                 }
             })
         }

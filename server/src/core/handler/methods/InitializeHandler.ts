@@ -8,6 +8,7 @@ import { logger } from "@core/logger/Logger";
 import ProjectConfigHelper from "@/core/helper/ProjectConfigHelper";
 import { LspMethod } from "@/types/core.types";
 import SnippetsConfigHelper from "@/core/helper/SnippetsConfigHelper";
+import DocumentEngine from "@/core/document/engine/DocumentEngine";
 
 export class InitializeHandler extends MethodHandler<RequestMessage, InitializeResult> {
 
@@ -16,7 +17,7 @@ export class InitializeHandler extends MethodHandler<RequestMessage, InitializeR
         logger.debug('InitializeHandler', 'Constructor called');
     }
 
-    protected async handleExecute(request: RequestMessage): Promise<InitializeResult> {
+    protected async handleExecute(request: RequestMessage, documentEngine: DocumentEngine): Promise<InitializeResult> {
 
         logger.debug('InitializeHandler', 'handleExecute called', { request });
 
@@ -29,6 +30,8 @@ export class InitializeHandler extends MethodHandler<RequestMessage, InitializeR
 
             Application.setConfigs(settings);
             Application.setSnippets(snippets);
+
+            documentEngine.getAstEngine().setLspConfig(settings);
 
             const result = new InitializeResultBuilder()
                 .enableDiagnostics(Application.name)

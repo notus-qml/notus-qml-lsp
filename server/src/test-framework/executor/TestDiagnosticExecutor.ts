@@ -56,7 +56,18 @@ export class TestDiagnosticExecutor extends TestExecutor {
 
         const visitor = new this.VisitorType();
 
-        visitor?.setMethod?.(LspMethod.Diagnostic, context);
+        visitor.setLspConfig?.(
+            {
+                rules: {
+                    [LspMethod.Diagnostic]: [this.moduleName]
+                },
+                plugins: {
+                    [LspMethod.Diagnostic]: [this.moduleName]
+                }
+            }
+        )
+
+        visitor.setMethod?.(LspMethod.Diagnostic, context);
 
         transverser.preOrder(tree.rootNode, visitor);
 

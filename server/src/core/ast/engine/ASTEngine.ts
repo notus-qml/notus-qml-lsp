@@ -3,7 +3,7 @@ import { ASTTraverser } from "../traverser/ASTTraverser";
 import { ModuleContext } from "@/types/module.types";
 import { DocumentURI, TextDocumentContentChangedEvent } from "@/types/lsp/document.types";
 import { TextUpdated } from "@/core/document/engine/DocumentEngine";
-import { LspMethod } from "@/types/core.types";
+import { LspConfig, LspMethod } from "@/types/core.types";
 
 export default abstract class ASTEngine {
 
@@ -32,6 +32,7 @@ export default abstract class ASTEngine {
     abstract parse(code: string): ASTTree;
     abstract analyze(node: ASTNode): void
     abstract setMethod(methodName: LspMethod, context: ModuleContext): void;
+    abstract setLspConfig(lspConfig: LspConfig): void;
     abstract query(node: ASTNode, queryCommand: string): ASTQueryMatch[];
 
 }

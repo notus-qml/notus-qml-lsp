@@ -1,50 +1,46 @@
 import { DiagnosticReportContext } from "@/core/context/DiagnosticReportContext";
 import { ASTNode } from "@/types/ast/ast.types";
 import { DiagnosticSeverity } from "@/types/lsp/document.types";
-import { ASTNodeFinder } from "@/core/ast/finder/ASTNodeFinder";
 
 /** @type {import('../types/plugin').Plugin} */
 module.exports = {
     handlers: {
-        'property-needs-prefix': {
+        'invalid-function-definition-rule': {
             create: (context: DiagnosticReportContext) => ({
-                ui_property: (node: ASTNode) => {
-                    const finder = new ASTNodeFinder();
+                statement_block: (node: ASTNode) => {
 
-                    const nameNode = finder.findChildByType(node, 'identifier');
-
-                    if (!nameNode) {
+                    if (node.hasError) {
                         return;
                     }
 
-                    const hasPrefix = nameNode.text.startsWith("_") || nameNode.text.startsWith("v");
+                    const parentType = node.parent?.type;
 
-                    if (hasPrefix) {
+                    if (parentType === "arrow_function" || parentType === "function_expression") {
                         return;
                     }
 
                     context.report({
-                        node: nameNode,
+                        node: node,
                         item: {
-                            message: "Property name needs a prefix!",
+                            message: "Dont use statement block, use arrow function or function definition !",
                             severity: DiagnosticSeverity.Warning,
                             suggestions: [
                                 {
-                                    title: "Add '_' prefix on property",
+                                    title: "function() {}",
                                     items: [
                                         {
-                                            newText: `_${nameNode.text}`
+                                            newText: `function() ${node.text}`
                                         }
                                     ]
                                 },
                                 {
-                                    title: "Add 'v' prefix on property",
+                                    title: "() => {}",
                                     items: [
                                         {
-                                            newText: `v${nameNode.text[0].toUpperCase() + nameNode.text.slice(1)}`
+                                            newText: `() => ${node.text}`
                                         }
                                     ]
-                                }
+                                },
                             ]
                         }
                     });

@@ -40,10 +40,10 @@ export interface ASTNode {
     namedChild(index: number): ASTNode | null;
     childCount: number;
 
-    hasError(): boolean;
-    hasChanges(): boolean;
+    hasError: boolean;
+    hasChanges: boolean;
 
-    isMissing(): boolean;
+    isMissing: boolean;
     equals(other: ASTNode): boolean;
 }
 

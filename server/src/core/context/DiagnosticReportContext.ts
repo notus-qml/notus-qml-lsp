@@ -8,7 +8,6 @@ export class DiagnosticReportContext implements ModuleContext {
     private builder: DiagnosticsBuilder = new DiagnosticsBuilder();
 
     log(message: string) {
-        // console.log(`[diagnostic] ${message}`);
     }
 
     report(data: DiagnosticContext) {

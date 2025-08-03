@@ -2,7 +2,7 @@ import { ASTNode } from "@/types/ast/ast.types";
 import { ASTVisitor } from "./ASTVisitor";
 import { RuleEngine } from "@/core/engine/module/RuleEngine";
 import { ModuleContext } from "@/types/module.types";
-import { LspMethod } from "@/types/core.types";
+import { LspConfig, LspMethod } from "@/types/core.types";
 
 export default class RuleVisitor implements ASTVisitor {
 
@@ -19,4 +19,9 @@ export default class RuleVisitor implements ASTVisitor {
     setMethod(methodName: LspMethod, context: ModuleContext) {
         this.ruleEngine.setHandlersByMethod(methodName, context)
     }
+
+    setLspConfig(lspConfig: LspConfig) {
+        this.ruleEngine.setLspConfig(lspConfig)
+    };
+
 }

@@ -25,22 +25,10 @@ export function Test(name?: string) {
 }
 
 export function TestDiagnosticPlugin(pluginName: string) {
-    Application.setConfigs({
-        plugins: {
-            [LspMethod.Diagnostic]: [pluginName]
-        },
-        rules: {}
-    })
     return TestModule(new TestDiagnosticExecutor(pluginName, PluginVisitor))
 }
 
 export function TestDiagnosticRule(ruleName: string) {
-    Application.setConfigs({
-        rules: {
-            [LspMethod.Diagnostic]: [ruleName]
-        },
-        plugins: {}
-    })
     return TestModule(new TestDiagnosticExecutor(ruleName, RuleVisitor))
 }
 

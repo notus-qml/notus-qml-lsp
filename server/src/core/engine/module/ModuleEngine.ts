@@ -1,5 +1,5 @@
 import { ASTNode } from "@/types/ast/ast.types";
-import { LspMethod } from "@/types/core.types";
+import { LspConfig, LspMethod } from "@/types/core.types";
 import { ModuleContext, NodeModuleType, Plugin, Rule } from "@/types/module.types";
 
 type ModuleType = Plugin | Rule;
@@ -11,16 +11,22 @@ export abstract class ModuleEngine<T extends ModuleType> {
     protected handlersByMethod: Map<LspMethod, Map<NodeModuleType, HandlerType[]>>
     protected context: ModuleContext;
     protected handlers: Map<NodeModuleType, HandlerType[]> | undefined;
+    protected lspConfig: LspConfig | null;
 
     constructor(context: ModuleContext) {
         this.cache = new Map();
         this.handlersByMethod = new Map();
         this.context = context;
         this.handlers = undefined;
+        this.lspConfig = null;
     }
 
     protected abstract load(methodName: string): T;
     protected abstract namesByMethod(methodName: LspMethod): string[] | never[];
+
+    setLspConfig(lspConfig: LspConfig) {
+        this.lspConfig = lspConfig;
+    }
 
     setHandlersByMethod(methodName: LspMethod, context: ModuleContext): void {
 

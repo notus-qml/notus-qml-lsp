@@ -12,7 +12,7 @@ export class TestEngine {
     async load() {
 
         // TODO add rules, change to absolute path
-        const pathsTest = ['../plugins/test']
+        const pathsTest = ['../plugins/test', '../rules/test']
         const extensionsAcceptable = ['.js', '.ts']
 
         const testFiles: TestFile[] = pathsTest.flatMap((pathTest): TestFile[] => {

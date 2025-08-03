@@ -11,7 +11,7 @@ module.exports = {
                 ui_object_definition: (node: ASTNode) => {
 
                     // TODO Check the impact of creating an ASTNodeFinder every time
-                    const finder = new ASTNodeFinder(node);
+                    const finder = new ASTNodeFinder();
 
                     // TODO load from a file maybe?
                     const prefixByType = new Map<string, string>([
@@ -19,13 +19,13 @@ module.exports = {
                         ["Text", "txt"],
                     ])
 
-                    const objectType = finder.getObjectType();
+                    const objectType = finder.getObjectType(node);
 
                     if (!objectType) {
                         return;
                     }
 
-                    if (!finder.hasBinding("id")) {
+                    if (!finder.hasBinding(node, "id")) {
                         return;
                     }
 
@@ -35,7 +35,7 @@ module.exports = {
                         return;
                     }
 
-                    const nodeId = finder.getBindingValue("id");
+                    const nodeId = finder.getBindingValue(node, "id");
 
                     if (!nodeId) {
                         return;

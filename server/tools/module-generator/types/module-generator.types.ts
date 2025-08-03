@@ -12,8 +12,8 @@ export interface FileInfo {
 }
 
 export namespace TestModuleType {
-    export const PLUGIN: string = "TestPlugin"
-    export const RULE: string = "TestRule"
+    export const PLUGIN: string = "TestDiagnosticPlugin"
+    export const RULE: string = "TestDiagnosticRule"
 }
 
-export type TestModuleType = "TestPlugin" | "TestRule";
+export type TestModuleType = "TestDiagnosticPlugin" | "TestDiagnosticRule";

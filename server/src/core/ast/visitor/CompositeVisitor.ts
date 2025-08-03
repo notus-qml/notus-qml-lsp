@@ -3,7 +3,7 @@ import { ASTVisitor } from "./ASTVisitor";
 import PluginVisitor from "./PluginVisitor";
 import RuleVisitor from "./RuleVisitor";
 import { ModuleContext } from "@/types/module.types";
-import { LspMethod } from "@/types/core.types";
+import { LspConfig, LspMethod } from "@/types/core.types";
 
 export default class CompositeVisitor implements ASTVisitor {
 
@@ -25,6 +25,12 @@ export default class CompositeVisitor implements ASTVisitor {
     setMethod(methodName: LspMethod, context: ModuleContext) {
         this.visitors.forEach((visitor) => {
             visitor?.setMethod?.(methodName, context);
+        })
+    }
+
+    setLspConfig(lspConfig: LspConfig) {
+        this.visitors.forEach((visitor) => {
+            visitor?.setLspConfig?.(lspConfig);
         })
     }
 

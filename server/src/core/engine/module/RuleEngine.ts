@@ -3,7 +3,6 @@ import { ModuleEngine } from './ModuleEngine';
 import { Rule, RuleContext } from '@/types/module.types';
 import { RuleBuilder } from '@core/builder/RuleBuilder';
 import { RequireManager } from '@core/manager/RequireManager';
-import Application from '@/core/singleton/Application';
 
 export class RuleEngine extends ModuleEngine<Rule> {
 
@@ -21,6 +20,6 @@ export class RuleEngine extends ModuleEngine<Rule> {
             return [];
         }
 
-        return Application.configs?.rules[methodName] || [];
+        return this.lspConfig?.rules[methodName] ?? [];
     };
 }
