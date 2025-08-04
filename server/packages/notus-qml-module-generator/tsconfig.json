@@ -3,13 +3,9 @@
         "target": "es2016",
         "module": "commonjs",
         "baseUrl": ".",
-        "outDir": "../build/tools",
-        "rootDir": ".",
-        "paths": {
-            "@/module-generator/*": [
-                "module-generator/*"
-            ]
-        },
+        "outDir": "./build",
+        "rootDir": "./src",
+        "paths": {},
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "strict": true,

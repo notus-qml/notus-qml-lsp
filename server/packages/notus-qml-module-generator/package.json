@@ -5,10 +5,15 @@
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "copy:templates": "cpx \"src/templates/files/**/*\" build/templates/files",
+    "build": "tsc && tsc-alias && npm run copy:templates",
+    "cli:generator": "npm run build && node ./build/ModuleGeneratorCLI.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "bin": {
+    "notus-cli-generator": "./build/ModuleGeneratorCLI.js"
+  }
 }

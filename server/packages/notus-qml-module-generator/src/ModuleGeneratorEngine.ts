@@ -91,7 +91,7 @@ export class ModuleGeneratorEngine {
         const sourceFolterPath = this.createFolder(ruleFolderPath, "src");
 
         this.createFile(sourceFolterPath, "index.ts", () => {
-            return PluginTemplate.create(moduleName);
+            return moduleType === ModuleType.PLUGIN ? PluginTemplate.create(moduleName) : RuleTemplate.create(moduleName);
         });
 
         this.createTest(sourceFolterPath, moduleName, moduleType);
