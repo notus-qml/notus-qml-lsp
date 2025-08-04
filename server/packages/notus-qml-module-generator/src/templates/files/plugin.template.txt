@@ -1,0 +1,38 @@
+import { DiagnosticReportContext, ASTNodeFinder } from "notus-qml-core";
+import { ASTNode, DiagnosticSeverity } from "notus-qml-types";
+
+module.exports = {
+    handlers: {
+        '{{PluginName}}': {
+            create: (context: DiagnosticReportContext) => ({
+                ui_property: (node: ASTNode) => {
+                    const finder = new ASTNodeFinder();
+
+                    const identifierNode = finder.findChildByType(node, 'identifier');
+
+                    if (!identifierNode) {
+                        return;
+                    }
+
+                    context.report({
+                        node: identifierNode,
+                        item: {
+                            message: "Report message",
+                            severity: DiagnosticSeverity.Warning,
+                            suggestions: [
+                                {
+                                    title: "",
+                                    items: [
+                                        {
+                                            newText: ""
+                                        }
+                                    ]
+                                },
+                            ]
+                        }
+                    });
+                }
+            })
+        }
+    }
+};

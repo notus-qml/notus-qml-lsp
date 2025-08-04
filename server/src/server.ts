@@ -1,12 +1,4 @@
-import { addAlias } from 'module-alias';
-
-addAlias('@', __dirname + '/');
-addAlias('@core', __dirname + '/core');
-addAlias('@test', __dirname + '/test-framework');
-
-import { MethodDispatcher } from "@core/dispatcher/MethodDispatcher"
-import { LoggerConfig } from "@core/logger/LoggerConfig"
-import { logger } from "@core/logger/Logger"
+import { MethodDispatcher, LoggerConfig, logger } from "notus-qml-core"
 
 LoggerConfig.initialize();
 

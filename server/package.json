@@ -5,12 +5,8 @@
   "main": "./src/server.js",
   "type": "commonjs",
   "scripts": {
-    "copy:templates": "cpx \"tools/module-generator/templates/files/**/*\" build/tools/module-generator/templates/files",
-    "build": "tsc && tsc-alias && npm run copy:templates",
-    "build:tools": "tsc -p tools/tsconfig.json",
+    "build": "tsc && tsc-alias",
     "start": "npm run build && node ./build/server.js",
-    "test": "npm run build && node ./build/test-framework/TestCLI.js",
-    "cli:generator": "npm run build:tools && node ./build/tools/module-generator/ModuleGeneratorCLI.js",
     "dev": "tsc --watch",
     "watch": "tsc -w",
     "package": "pkg . --targets node*-win-x64 --output ../bin/qml-language.exe"
@@ -48,5 +44,14 @@
   },
   "bin": {
     "qml-language": "./build/server.js"
-  }
+  },
+  "private": true,
+  "workspaces": [
+    "packages/notus-qml-core",
+    "packages/notus-qml-types",
+    "packages/notus-qml-test",
+    "packages/notus-qml-utils",
+    "packages/notus-qml-module-generator",
+    "packages/notus-qml-rules"
+  ]
 }
