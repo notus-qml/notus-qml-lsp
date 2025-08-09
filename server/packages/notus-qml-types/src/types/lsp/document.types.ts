@@ -20,7 +20,7 @@ export interface TextDocumentItem {
     text: string;
 }
 
-interface TextDocumentIdentifier {
+export interface TextDocumentIdentifier {
     uri: DocumentURI;
 }
 

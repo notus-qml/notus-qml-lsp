@@ -12,6 +12,11 @@ export interface InitializeResult {
     serverInfo?: ServerInformation;
 }
 
+export interface WorkspaceFolder {
+    uri: DocumentURI;
+    name: string;
+}
+
 export interface InitializeParams extends WorkDoneProgressParams {
 
     processId: number | null;
@@ -27,5 +32,5 @@ export interface InitializeParams extends WorkDoneProgressParams {
     initializationOptions?: LSPAny;
     // capabilities: ClientCapabilities;
     // trace?: TraceValue;
-    // workspaceFolders?: WorkspaceFolder[] | null;
+    workspaceFolders?: WorkspaceFolder[] | null;
 }

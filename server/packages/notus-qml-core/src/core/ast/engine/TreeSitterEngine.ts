@@ -1,11 +1,15 @@
 import ASTEngine from "@core/ast/engine/ASTEngine";
 
-import QML from "../../../../../../tree-sitter-qmljs";
+import QML from "tree-sitter-qmljs";
 import { ASTTraverser } from "../traverser/ASTTraverser";
 import CompositeVisitor from "../visitor/CompositeVisitor";
-import { ASTNode, ASTQueryMatch, ASTTree, ModuleContext, DocumentURI, TextDocumentContentChangedEvent, LspConfig, LspMethod } from "notus-qml-types";
 import { ASTVisitor } from "../visitor/ASTVisitor";
 import { TextUpdated } from "@/core/document/engine/DocumentEngine";
+import { RuleEngine } from "@/core/engine/module/RuleEngine";
+import { PluginEngine } from "@/core/engine/module/PluginEngine";
+import { ASTNode, ASTQueryMatch, ASTTree, ModuleContext, DocumentURI, TextDocumentContentChangedEvent, LspConfig, LspMethod } from "notus-qml-types";
+import { CodeAnalyzer } from "@/core/utils/CodeAnalyzer";
+
 import Parser = require("tree-sitter");
 import Query = Parser.Query;
 
@@ -13,11 +17,20 @@ export default class TreeSitterEngine extends ASTEngine {
 
     private parser: any;
     private visitor: ASTVisitor;
+    private ruleEngine: RuleEngine;
+    private pluginEngine: PluginEngine;
+    private codeAnalyzer: CodeAnalyzer;
 
     constructor() {
         super(new ASTTraverser);
         this.parser = new Parser();
-        this.visitor = new CompositeVisitor();
+
+        this.codeAnalyzer = new CodeAnalyzer();
+        this.pluginEngine = new PluginEngine();
+        this.ruleEngine = new RuleEngine();
+
+        this.visitor = new CompositeVisitor(this.pluginEngine, this.ruleEngine);
+
         this.initialize();
     }
 
@@ -30,7 +43,15 @@ export default class TreeSitterEngine extends ASTEngine {
     }
 
     analyze(node: ASTNode): void {
+
         this.traverser.preOrder(node, this.visitor);
+
+        // TODO Only exec this, if runByCode has some  rule
+        this.codeAnalyzer.process(node.text);
+
+        this.pluginEngine.runByCode(this.codeAnalyzer);
+        this.ruleEngine.runByCode(this.codeAnalyzer);
+
     }
 
     setMethod(methodName: LspMethod, context: ModuleContext): void {

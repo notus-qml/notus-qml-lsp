@@ -77,8 +77,9 @@ export class MethodDispatcher {
 
     }
 
-    handleNotification() {
-        // TODO implement
+    handleNotification(result: object | null) {
+        const message: string = JSON.stringify(result);
+        return this.stdoutCallback(this.handleContentResponse(message));
     }
 
     handleResponse(id: RequestMessage['id'], result: object | null): string {

@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { logger } from '../logger/Logger';
-import { LspConfig, LspMethod } from 'notus-qml-types';
+import { LspConfig, LspMethod, WorkspaceFolder } from 'notus-qml-types';
 import FileHelper from './FileHelper';
 
 // TODO remove
@@ -50,13 +50,15 @@ export default class ProjectConfigHelper {
         return ".notusqmllsp.json"
     }
 
-    static load(rootURI: string | null): LspConfig {
+    static load(rootURI: string | null, workspaceFolders: WorkspaceFolder[] | null | undefined): LspConfig {
 
-        if (!rootURI) {
+        if (!rootURI && !workspaceFolders) {
             return DEFAULT_CONFIG;
         }
 
-        const settingsPath = FileHelper.rootPathByURI(rootURI, ProjectConfigHelper.fileName());
+        const uri = workspaceFolders?.at(0)?.uri ?? rootURI as string;
+
+        const settingsPath = FileHelper.rootPathByURI(uri, ProjectConfigHelper.fileName());
 
         if (!fs.existsSync(settingsPath)) {
 
