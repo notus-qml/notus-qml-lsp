@@ -22,7 +22,7 @@ export class InitializeHandler extends MethodHandler<RequestMessage, InitializeR
 
             const params = request.params as InitializeParams;
 
-            const settings = ProjectConfigHelper.load(params.rootUri);
+            const settings = ProjectConfigHelper.load(params.rootUri, params.workspaceFolders);
             const snippets = await SnippetsConfigHelper.load(params.rootUri);
 
             Application.setConfigs(settings);

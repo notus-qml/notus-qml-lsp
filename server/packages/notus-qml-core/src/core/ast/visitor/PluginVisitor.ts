@@ -6,8 +6,8 @@ export default class PluginVisitor implements ASTVisitor {
 
     private puglinEngine: PluginEngine;
 
-    constructor() {
-        this.puglinEngine = new PluginEngine();
+    constructor(pluginEngine: PluginEngine) {
+        this.puglinEngine = pluginEngine;
     }
 
     visit(node: ASTNode): void {

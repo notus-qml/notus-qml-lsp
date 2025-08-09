@@ -13,6 +13,9 @@ export * from "./core/ast/traverser/ASTTraverser"
 export * from "./core/ast/visitor/ASTVisitor"
 export * from "./core/context/DiagnosticReportContext"
 export * from "./core/ast/finder/ASTNodeFinder"
+export * from "./core/helper/LineEndingsHelper"
+export * from "./core/utils/RegexRunner"
+export * from "./core/utils/CodeAnalyzer"
 
 export { default as PluginVisitor } from "./core/ast/visitor/PluginVisitor";
 export { default as RuleVisitor } from "./core/ast/visitor/RuleVisitor";

@@ -1,16 +1,18 @@
+import { PluginEngine } from "@/core/engine/module/PluginEngine";
 import { ASTVisitor } from "./ASTVisitor";
 import PluginVisitor from "./PluginVisitor";
 import RuleVisitor from "./RuleVisitor";
 import { ModuleContext, LspConfig, LspMethod, ASTNode } from "notus-qml-types";
+import { RuleEngine } from "@/core/engine/module/RuleEngine";
 
 export default class CompositeVisitor implements ASTVisitor {
 
     private visitors: ASTVisitor[];
 
-    constructor() {
+    constructor(pluginEngine: PluginEngine, ruleEngine: RuleEngine) {
         this.visitors = [
-            new PluginVisitor(),
-            new RuleVisitor()
+            new PluginVisitor(pluginEngine),
+            new RuleVisitor(ruleEngine)
         ];
     }
 

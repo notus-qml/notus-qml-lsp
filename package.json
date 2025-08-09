@@ -7,7 +7,8 @@
   "publisher": "None",
   "categories": [],
   "engines": {
-    "vscode": "^1.75.0"
+    "vscode": "^1.75.0",
+    "node": "22.11.0"
   },
   "activationEvents": [
     "onLanguage"

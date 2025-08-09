@@ -6,8 +6,8 @@ export default class RuleVisitor implements ASTVisitor {
 
     private ruleEngine: RuleEngine;
 
-    constructor() {
-        this.ruleEngine = new RuleEngine();
+    constructor(ruleEngine: RuleEngine) {
+        this.ruleEngine = ruleEngine;
     }
 
     visit(node: ASTNode): void {

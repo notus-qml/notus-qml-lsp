@@ -19,25 +19,24 @@ export class LineEndingsHelper {
         return crlf > lf ? '\r\n' : '\n';
     }
 
-    private normalizeLineEndings(text: string): string {
-        return text.replace(/\r\n?/g, '\n');
-    }
-
     private computeLineOffsets(text: string): number[] {
         const offsets = [0];
         for (let i = 0; i < text.length; i++) {
-            if (text[i] === '\n') {
+            if (text[i] === '\r' && text[i + 1] === '\n') {
+                offsets.push(i + 2);
+                i++;
+            } else if (text[i] === '\n') {
                 offsets.push(i + 1);
             }
         }
         return offsets;
     }
 
+
     process(text: string) {
-        this.original = "";
+        this.original = text;
         this.lineEnding = this.detectLineEnding(text);
-        this.content = this.normalizeLineEndings(text);
-        this.lineOffsets = this.computeLineOffsets(this.content);
+        this.lineOffsets = this.computeLineOffsets(text);
     }
 
     offsetToPosition(offset: number): { line: number; character: number } {
@@ -57,10 +56,6 @@ export class LineEndingsHelper {
 
     nrLinesByDocument(text: string): number {
         return text.split(/\r?\n/).length;
-    }
-
-    applyLineEnding(text: string): string {
-        return text.replace(/\n/g, this.lineEnding);
     }
 
     sizeLineEnding() {

@@ -13,11 +13,13 @@ export interface RuleContext extends ModuleContext {
 
 }
 
+export type HandlerType = ((...args: any) => void);
+
 export interface Module {
     handlers: {
         [name: string]: {
             create: (context: PluginContext) => {
-                [nodeType: string]: (node: any) => void;
+                [nodeType: string]: HandlerType;
             };
         };
     };
@@ -31,9 +33,9 @@ export interface Rule extends Module {
 
 }
 
-export const NodeModuleType = {
-    PropertyDefinition: "PropertyDefinition",
-    ui_property: "ui_property"
-} as const;
+// export const NodeModuleType = {
+//     PropertyDefinition: "PropertyDefinition",
+//     ui_property: "ui_property"
+// } as const;
 
-export type NodeModuleType = typeof NodeModuleType[keyof typeof NodeModuleType];
+// export type NodeModuleType = typeof NodeModuleType[keyof typeof NodeModuleType];

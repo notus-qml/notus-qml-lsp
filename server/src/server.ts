@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { MethodDispatcher, LoggerConfig, logger } from "notus-qml-core"
 
 LoggerConfig.initialize();

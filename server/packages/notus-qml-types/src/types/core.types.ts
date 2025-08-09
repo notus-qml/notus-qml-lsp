@@ -5,13 +5,19 @@ export enum LspMethod {
     DidOpen = "textDocument/didOpen",
     DidChange = "textDocument/didChange",
     Formatting = "textDocument/formatting",
-    Initialize = "initialize"
+    Initialize = "initialize",
+    PublishDiagnostics = "textDocument/PublishDiagnostics"
+}
+
+export interface PathsConfig {
+    plugin: string;
 }
 
 export interface LspConfig {
     rules: Partial<Record<LspMethod, string[]>>;
     plugins: Partial<Record<LspMethod, string[]>>;
     formatting?: FormattingImportGroupConfig[];
+    paths?: PathsConfig;
 }
 
 export interface SnippetBody {
