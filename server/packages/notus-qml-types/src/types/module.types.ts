@@ -15,7 +15,7 @@ export interface RuleContext extends ModuleContext {
 
 export type HandlerType = {
     name: string;
-    handler: (...args: any) => void;
+    function: (...args: any) => void;
 };
 
 export interface Module {
