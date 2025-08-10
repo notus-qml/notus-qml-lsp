@@ -52,13 +52,14 @@ export abstract class ModuleEngine {
         const genericSymbol = "_";
 
         this.handlers?.get(genericSymbol)?.forEach((handler) => {
-            handler(codeAnalyzer)
+            handler.function(codeAnalyzer, this.lspConfig?.params?.[handler.name])
         })
     }
 
     run(node: ASTNode) {
+
         this.handlers?.get(node.type)?.forEach((handler) => {
-            handler(node)
+            handler.function(node, this.lspConfig?.params?.[handler.name])
         })
     }
 
@@ -73,14 +74,19 @@ export abstract class ModuleEngine {
 
                 const handlerImplement = handlerContext.create(context);
 
-                for (const [nodeType, handler] of Object.entries(handlerImplement) as [string, HandlerType][]) {
+                for (const [nodeType, handler] of Object.entries(handlerImplement) as [string, any][]) {
+
+                    const handlerObject: HandlerType = {
+                        name: name,
+                        function: handler
+                    }
 
                     if (rulesByType.has(nodeType)) {
-                        rulesByType.get(nodeType)!.push(handler);
+                        rulesByType.get(nodeType)!.push(handlerObject);
                         continue;
                     }
 
-                    rulesByType.set(nodeType, [handler]);
+                    rulesByType.set(nodeType, [handlerObject]);
                 }
             }
         }

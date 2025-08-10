@@ -13,7 +13,10 @@ export interface RuleContext extends ModuleContext {
 
 }
 
-export type HandlerType = ((...args: any) => void);
+export type HandlerType = {
+    name: string;
+    handler: (...args: any) => void;
+};
 
 export interface Module {
     handlers: {

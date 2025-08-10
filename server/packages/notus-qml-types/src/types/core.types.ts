@@ -13,11 +13,16 @@ export interface PathsConfig {
     plugin: string;
 }
 
+export interface ParamsConfig {
+    [moduleName: string]: Record<string, unknown>;
+}
+
 export interface LspConfig {
     rules: Partial<Record<LspMethod, string[]>>;
     plugins: Partial<Record<LspMethod, string[]>>;
     formatting?: FormattingImportGroupConfig[];
     paths?: PathsConfig;
+    params?: ParamsConfig;
 }
 
 export interface SnippetBody {
