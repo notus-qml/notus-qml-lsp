@@ -5,7 +5,7 @@
   "main": "./src/server.js",
   "type": "commonjs",
   "scripts": {
-    "build": "tsc && tsc-alias && npm run build --workspaces",
+    "build": "npm run build --workspaces && tsc && tsc-alias",
     "start": "npm run build && node ./build/server.js",
     "dev": "tsc --watch",
     "watch": "tsc -w",
@@ -36,7 +36,10 @@
     "qmet": "file:../../qmet",
     "tree-sitter": "^0.25.0",
     "tsconfig-paths": "^4.2.0",
-    "vscode-uri": "^3.1.0"
+    "vscode-uri": "^3.1.0",
+    "notus-qml-core": "*",
+    "notus-qml-types": "*",
+    "notus-qml-test": "*"
   },
   "pkg": {
     "scripts": "build/**/*.js",
