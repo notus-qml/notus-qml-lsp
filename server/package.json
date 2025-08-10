@@ -5,7 +5,7 @@
   "main": "./src/server.js",
   "type": "commonjs",
   "scripts": {
-    "build": "tsc && tsc-alias",
+    "build": "tsc && tsc-alias && npm run build --workspaces",
     "start": "npm run build && node ./build/server.js",
     "dev": "tsc --watch",
     "watch": "tsc -w",

@@ -1,7 +1,6 @@
 import { TestExecutor } from "./executor/TestExecutor";
 import { isEqual } from "lodash";
 import { TestDiagnosticExecutor } from "./executor/TestDiagnosticExecutor";
-import { PluginVisitor, RuleVisitor } from "notus-qml-core";
 
 export function compare(actual: any, expected: any) {
     if (!isEqual(actual, expected)) {
@@ -20,12 +19,8 @@ export function Test(name?: string) {
     };
 }
 
-export function TestDiagnosticPlugin(pluginName: string) {
-    return TestModule(new TestDiagnosticExecutor(pluginName, PluginVisitor))
-}
-
-export function TestDiagnosticRule(ruleName: string) {
-    return TestModule(new TestDiagnosticExecutor(ruleName, RuleVisitor))
+export function TestDiagnostic(moduleName: string) {
+    return TestModule(new TestDiagnosticExecutor(moduleName))
 }
 
 function TestModule(testExecutor: TestExecutor) {

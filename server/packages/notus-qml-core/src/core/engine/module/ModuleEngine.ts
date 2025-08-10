@@ -1,11 +1,9 @@
 import { CodeAnalyzer } from "@/core/utils/CodeAnalyzer";
-import { ASTNode, HandlerType, LspConfig, LspMethod, ModuleContext, Plugin, Rule } from "notus-qml-types";
+import { ASTNode, HandlerType, LspConfig, LspMethod, Module, ModuleContext } from "notus-qml-types";
 
-type ModuleType = Plugin | Rule;
+export abstract class ModuleEngine {
 
-export abstract class ModuleEngine<T extends ModuleType> {
-
-    protected cache: Map<string, T>;
+    protected cache: Map<string, Module>;
     protected handlersByMethod: Map<LspMethod, Map<string, HandlerType[]>>
     protected context: ModuleContext;
     protected handlers: Map<string, HandlerType[]> | undefined;
@@ -19,7 +17,7 @@ export abstract class ModuleEngine<T extends ModuleType> {
         this.lspConfig = null;
     }
 
-    protected abstract load(methodName: string): T;
+    protected abstract load(methodName: string): Module;
     protected abstract namesByMethod(methodName: LspMethod): string[] | never[];
 
     setLspConfig(lspConfig: LspConfig) {
@@ -91,7 +89,7 @@ export abstract class ModuleEngine<T extends ModuleType> {
 
     }
 
-    get(methodName: string): T {
+    get(methodName: string): Module {
 
         if (this.cache.has(methodName)) {
             return this.cache.get(methodName)!;
@@ -102,7 +100,7 @@ export abstract class ModuleEngine<T extends ModuleType> {
         return item;
     }
 
-    getAll(names: string[]): T[] {
+    getAll(names: string[]): Module[] {
         return names.map(name => this.get(name));
     }
 

@@ -1,52 +1,43 @@
 import { PluginEngine } from "@/core/engine/module/PluginEngine";
 import { ASTVisitor } from "./ASTVisitor";
-import PluginVisitor from "./PluginVisitor";
-import RuleVisitor from "./RuleVisitor";
+import ModuleVisitor from "./ModuleVisitor";
 import { ModuleContext, LspConfig, LspMethod, ASTNode } from "notus-qml-types";
 import { RuleEngine } from "@/core/engine/module/RuleEngine";
 
 export default class CompositeVisitor implements ASTVisitor {
 
-    private visitors: ASTVisitor[];
+    private pluginVisitor: ModuleVisitor;
+    private ruleVisitor: ModuleVisitor;
 
     constructor(pluginEngine: PluginEngine, ruleEngine: RuleEngine) {
-        this.visitors = [
-            new PluginVisitor(pluginEngine),
-            new RuleVisitor(ruleEngine)
-        ];
+        this.pluginVisitor = new ModuleVisitor(pluginEngine);
+        this.ruleVisitor = new ModuleVisitor(ruleEngine);
     }
 
     visit(node: ASTNode): void {
-        this.visitors.forEach((visitor: ASTVisitor) => {
-            visitor.visit(node)
-        })
+        this.ruleVisitor.visit(node)
+        this.pluginVisitor.visit(node)
     }
 
     setMethod(methodName: LspMethod, context: ModuleContext) {
-        this.visitors.forEach((visitor) => {
-            visitor?.setMethod?.(methodName, context);
-        })
+        this.ruleVisitor?.setMethod?.(methodName, context);
+        this.pluginVisitor?.setMethod?.(methodName, context);
     }
 
-    removePluginVisitor(lspConfig: LspConfig) {
+    disablePluginVisitor(lspConfig: LspConfig) {
 
         const hasPluginPath = lspConfig.paths?.plugin !== '';
 
-        if (!hasPluginPath) {
-            this.visitors = this.visitors.filter((visitor) => {
-                return !(visitor instanceof PluginVisitor)
-            })
-        }
+        this.pluginVisitor.setIsEnabled(hasPluginPath);
 
     }
 
     setLspConfig(lspConfig: LspConfig) {
 
-        this.removePluginVisitor(lspConfig);
+        this.disablePluginVisitor(lspConfig);
 
-        this.visitors.forEach((visitor) => {
-            visitor?.setLspConfig?.(lspConfig);
-        })
+        this.ruleVisitor?.setLspConfig?.(lspConfig);
+        this.pluginVisitor?.setLspConfig?.(lspConfig);
 
     }
 

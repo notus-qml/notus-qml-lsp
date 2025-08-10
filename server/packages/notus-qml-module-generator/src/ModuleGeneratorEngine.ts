@@ -116,7 +116,7 @@ export class ModuleGeneratorEngine {
 
         const testFolderPath = this.createFolder(dirPath, "test");
 
-        const fileName = `${moduleName}-test.ts`;
+        const fileName = "test.ts";
         const className = this.toClassFileName(`test-${moduleName}`)
 
         this.createFile(testFolderPath, fileName, () => {

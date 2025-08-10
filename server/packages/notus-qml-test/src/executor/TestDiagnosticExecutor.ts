@@ -1,15 +1,16 @@
-import { DocumentEngine, TreeSitterEngine, ASTTraverser, ASTVisitor } from "notus-qml-core";
+import { DocumentEngine, TreeSitterEngine, ASTTraverser, ModuleVisitor, CodeAnalyzer } from "notus-qml-core";
 import { TestExecutor } from "./TestExecutor";
 import { TestCase } from "@test/types/test.types";
 import { LspMethod } from "notus-qml-types";
+import { TestModuleEngine } from "@test/TestModuleEngine";
 
 export class TestDiagnosticExecutor extends TestExecutor {
 
-    private VisitorType: new () => ASTVisitor;
+    private codeAnalyzer: CodeAnalyzer;
 
-    constructor(moduleName: string, VisitorType: new () => ASTVisitor) {
+    constructor(moduleName: string) {
         super(moduleName)
-        this.VisitorType = VisitorType;
+        this.codeAnalyzer = new CodeAnalyzer()
     }
 
     exec(testCase: TestCase): void {
@@ -51,22 +52,17 @@ export class TestDiagnosticExecutor extends TestExecutor {
 
         const transverser = new ASTTraverser();
 
-        const visitor = new this.VisitorType();
+        const testModuleEngine = new TestModuleEngine(context, this.moduleName);
 
-        visitor.setLspConfig?.(
-            {
-                rules: {
-                    [LspMethod.Diagnostic]: [this.moduleName]
-                },
-                plugins: {
-                    [LspMethod.Diagnostic]: [this.moduleName]
-                }
-            }
-        )
+        const visitor = new ModuleVisitor(testModuleEngine);
 
         visitor.setMethod?.(LspMethod.Diagnostic, context);
 
         transverser.preOrder(tree.rootNode, visitor);
+
+        this.codeAnalyzer.process(tree.rootNode.text);
+
+        testModuleEngine.runByCode(this.codeAnalyzer)
 
         if (!reportThrowed && reportExpected) {
             throw new Error(`❌ Comparation failed, report defined but not throwed`);

@@ -1,4 +1,4 @@
-export class RuleBuilder {
+export class ModuleBuilder {
 
     static context() {
         return {

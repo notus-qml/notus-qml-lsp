@@ -6,4 +6,5 @@ export interface ASTVisitor {
     exitNode?(node: ASTNode): void;
     setMethod?(methodName: LspMethod, context: ModuleContext): void;
     setLspConfig?(lspConfig: LspConfig): void;
+    setIsEnabled?(isEnabled: boolean): void;
 }

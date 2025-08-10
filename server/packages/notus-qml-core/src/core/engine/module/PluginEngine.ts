@@ -1,16 +1,15 @@
 import { ModuleEngine } from './ModuleEngine';
-import { Plugin, PluginContext, LspMethod } from 'notus-qml-types';
-import { PluginBuilder } from '@core/builder/PluginBuilder';
+import { LspMethod, Module, ModuleContext } from 'notus-qml-types';
 import { RequireManager } from '@core/manager/RequireManager';
 
-export class PluginEngine extends ModuleEngine<Plugin> {
+export class PluginEngine extends ModuleEngine {
 
-    constructor(context?: PluginContext) {
-        super(context ?? PluginBuilder.context())
+    constructor(context: ModuleContext) {
+        super(context)
     }
 
-    load(pluginName: string): Plugin {
-        return RequireManager.byPath<Plugin>(`${this.lspConfig?.paths?.plugin}${pluginName}`);
+    load(pluginName: string): Module {
+        return RequireManager.byPath<Module>(`${this.lspConfig?.paths?.plugin}${pluginName}`);
     }
 
     namesByMethod(methodName: LspMethod): string[] {

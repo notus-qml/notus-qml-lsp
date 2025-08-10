@@ -9,6 +9,7 @@ import { RuleEngine } from "@/core/engine/module/RuleEngine";
 import { PluginEngine } from "@/core/engine/module/PluginEngine";
 import { ASTNode, ASTQueryMatch, ASTTree, ModuleContext, DocumentURI, TextDocumentContentChangedEvent, LspConfig, LspMethod } from "notus-qml-types";
 import { CodeAnalyzer } from "@/core/utils/CodeAnalyzer";
+import { ModuleBuilder } from "@/core/builder/ModuleBuilder";
 
 import Parser = require("tree-sitter");
 import Query = Parser.Query;
@@ -26,8 +27,9 @@ export default class TreeSitterEngine extends ASTEngine {
         this.parser = new Parser();
 
         this.codeAnalyzer = new CodeAnalyzer();
-        this.pluginEngine = new PluginEngine();
-        this.ruleEngine = new RuleEngine();
+
+        this.pluginEngine = new PluginEngine(ModuleBuilder.context());
+        this.ruleEngine = new RuleEngine(ModuleBuilder.context());
 
         this.visitor = new CompositeVisitor(this.pluginEngine, this.ruleEngine);
 

@@ -16,8 +16,12 @@ export * from "./core/ast/finder/ASTNodeFinder"
 export * from "./core/helper/LineEndingsHelper"
 export * from "./core/utils/RegexRunner"
 export * from "./core/utils/CodeAnalyzer"
+export * from "./core/engine/module/ModuleEngine"
+export * from "./core/manager/RequireManager"
 
-export { default as PluginVisitor } from "./core/ast/visitor/PluginVisitor";
+export { default as ModuleVisitor } from "./core/ast/visitor/ModuleVisitor"
+
+export { default as PluginVisitor } from "./core/ast/visitor/ModuleVisitor";
 export { default as RuleVisitor } from "./core/ast/visitor/RuleVisitor";
 
 export { default as DocumentEngine } from "./core/document/engine/DocumentEngine"
