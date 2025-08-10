@@ -37,8 +37,8 @@
     "tree-sitter": "^0.25.0",
     "tsconfig-paths": "^4.2.0",
     "vscode-uri": "^3.1.0",
-    "notus-qml-core": "*",
     "notus-qml-types": "*",
+    "notus-qml-core": "*",
     "notus-qml-test": "*"
   },
   "pkg": {
@@ -52,8 +52,8 @@
   },
   "private": true,
   "workspaces": [
-    "packages/notus-qml-core",
     "packages/notus-qml-types",
+    "packages/notus-qml-core",
     "packages/notus-qml-test",
     "packages/notus-qml-utils",
     "packages/notus-qml-module-generator",
