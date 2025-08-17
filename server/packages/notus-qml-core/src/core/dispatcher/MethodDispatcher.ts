@@ -54,6 +54,10 @@ export class MethodDispatcher {
                     this.handleResponse(message.id, result);
                 }
 
+                for await (const result of this.methodEngine.notifications(message.method, message)) {
+                    this.handleNotification(result)
+                }
+
             } catch (error: any) {
 
                 logger.error('MethodDispatcher', 'Failed to process request', error);
