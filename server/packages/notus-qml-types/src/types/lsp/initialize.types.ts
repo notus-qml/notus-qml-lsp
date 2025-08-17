@@ -17,6 +17,19 @@ export interface WorkspaceFolder {
     name: string;
 }
 
+export interface DiagnosticClientCapabilities {
+    dynamicRegistration?: boolean;
+    relatedDocumentSupport?: boolean;
+}
+
+export interface TextDocumentClientCapabilities {
+    diagnostic?: DiagnosticClientCapabilities;
+}
+
+export interface ClientCapabilities {
+    textDocument?: TextDocumentClientCapabilities;
+}
+
 export interface InitializeParams extends WorkDoneProgressParams {
 
     processId: number | null;

@@ -19,7 +19,7 @@ export class MethodEngine {
 
     constructor() {
 
-        this.methodRegistry.register('initialize', new InitializeHandler());
+        this.methodRegistry.register('initialize', new InitializeHandler(this.methodRegistry));
         this.methodRegistry.register("textDocument/didOpen", new DidOpenHandler());
         this.methodRegistry.register("textDocument/didChange", new DidChangeHandler());
         this.methodRegistry.register("textDocument/diagnostic", new DiagnosticHandler());
@@ -27,10 +27,6 @@ export class MethodEngine {
         this.methodRegistry.register("textDocument/codeAction", new CodeActionHandler());
         this.methodRegistry.register("textDocument/formatting", new FormattingHandler());
         this.methodRegistry.register("textDocument/publishDiagnostics", new PublishDiagnosticHandler());
-
-        // TODO change this, respect a config
-        this.methodRegistry.getHandler(LspMethod.DidOpen)?.addNotification(this.methodRegistry.getHandler(LspMethod.PublishDiagnostics))
-        this.methodRegistry.getHandler(LspMethod.DidChange)?.addNotification(this.methodRegistry.getHandler(LspMethod.PublishDiagnostics))
 
         const registeredMethods = [
             'initialize',

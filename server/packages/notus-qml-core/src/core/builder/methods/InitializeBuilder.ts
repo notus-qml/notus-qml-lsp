@@ -21,12 +21,12 @@ export class InitializeResultBuilder {
     }
 
     enableCodeActions(): this {
-        this.result.capabilities!.codeActionProvider = {};
+        this.result.capabilities!.codeActionProvider = true;
         return this;
     }
 
     enableCompletion(): this {
-        this.result.capabilities!.completionProvider = {};
+        this.result.capabilities!.completionProvider = true;
         return this;
     }
 
