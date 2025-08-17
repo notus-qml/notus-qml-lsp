@@ -69,10 +69,14 @@ export class InitializeHandler extends MethodHandler<RequestMessage, InitializeR
             const settings = ProjectConfigHelper.load(params.rootUri, params.workspaceFolders);
             const snippets = await SnippetsConfigHelper.load(params.rootUri);
 
+            logger.info('InitializeHandler', 'handleExecute settings', settings);
+
             Application.setConfigs(settings);
             Application.setSnippets(snippets);
 
             documentEngine.getAstEngine().setLspConfig(settings);
+
+            this.adjustCapabilitys(params.capabilities);
 
             const result = new InitializeResultBuilder()
                 .enableDiagnostics(Application.name)
