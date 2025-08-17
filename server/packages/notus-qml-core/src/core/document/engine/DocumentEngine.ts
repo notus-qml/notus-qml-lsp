@@ -1,4 +1,5 @@
 import ASTEngine from "@/core/ast/engine/ASTEngine";
+import { LineEndingsHelper } from "@/core/helper/LineEndingsHelper";
 import { ASTNode, ASTTree, LspMethod, DocumentBody, DocumentURI, TextDocumentContentChangedEvent, ModuleContext } from "notus-qml-types";
 
 export interface TextUpdated {
@@ -11,10 +12,12 @@ export default class DocumentEngine {
 
     private astEngine: ASTEngine;
     private documentsByURI: Map<DocumentURI, DocumentBody>;
+    private lineEndingHelper: LineEndingsHelper;
 
     constructor(astEngine: ASTEngine) {
         this.astEngine = astEngine;
         this.documentsByURI = new Map();
+        this.lineEndingHelper = new LineEndingsHelper();
     }
 
     getAstEngine(): ASTEngine {
@@ -41,10 +44,10 @@ export default class DocumentEngine {
 
             const oldText = this.documentsByURI.get(documentURI) as string
 
-            const lines = oldText.split(/\r?\n/);
+            this.lineEndingHelper.process(oldText);
 
-            const startOffset = this.positionToOffset(change.range.start.line, change.range.start.character, lines);
-            const endOffset = this.positionToOffset(change.range.end.line, change.range.end.character, lines);
+            const startOffset = this.lineEndingHelper.positionToOffset(change.range.start.line, change.range.start.character);
+            const endOffset = this.lineEndingHelper.positionToOffset(change.range.end.line, change.range.end.character);
 
             const newText = oldText.slice(0, startOffset) + change.text + oldText.slice(endOffset);
 

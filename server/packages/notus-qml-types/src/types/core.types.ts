@@ -6,7 +6,7 @@ export enum LspMethod {
     DidChange = "textDocument/didChange",
     Formatting = "textDocument/formatting",
     Initialize = "initialize",
-    PublishDiagnostics = "textDocument/PublishDiagnostics"
+    PublishDiagnostics = "textDocument/publishDiagnostics"
 }
 
 export interface PathsConfig {

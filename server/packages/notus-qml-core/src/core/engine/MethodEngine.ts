@@ -9,6 +9,8 @@ import { InitializeHandler } from "@core/handler/methods/InitializeHandler";
 import { logger } from "@core/logger/Logger";
 import DocumentEngine from "../document/engine/DocumentEngine";
 import TreeSitterEngine from "../ast/engine/TreeSitterEngine";
+import { PublishDiagnosticHandler } from "../handler/methods/PublishDiagnosticHandler";
+import { LspMethod } from "notus-qml-types";
 
 export class MethodEngine {
 
@@ -18,12 +20,17 @@ export class MethodEngine {
     constructor() {
 
         this.methodRegistry.register('initialize', new InitializeHandler());
+        this.methodRegistry.register("textDocument/didOpen", new DidOpenHandler());
+        this.methodRegistry.register("textDocument/didChange", new DidChangeHandler());
         this.methodRegistry.register("textDocument/diagnostic", new DiagnosticHandler());
         this.methodRegistry.register("textDocument/completion", new CompletitionHandler());
         this.methodRegistry.register("textDocument/codeAction", new CodeActionHandler());
-        this.methodRegistry.register("textDocument/didOpen", new DidOpenHandler());
-        this.methodRegistry.register("textDocument/didChange", new DidChangeHandler());
         this.methodRegistry.register("textDocument/formatting", new FormattingHandler());
+        this.methodRegistry.register("textDocument/publishDiagnostics", new PublishDiagnosticHandler());
+
+        // TODO change this, respect a config
+        this.methodRegistry.getHandler(LspMethod.DidOpen)?.addNotification(this.methodRegistry.getHandler(LspMethod.PublishDiagnostics))
+        this.methodRegistry.getHandler(LspMethod.DidChange)?.addNotification(this.methodRegistry.getHandler(LspMethod.PublishDiagnostics))
 
         const registeredMethods = [
             'initialize',
@@ -36,6 +43,29 @@ export class MethodEngine {
         ];
 
         logger.info('MethodEngine', 'Registered methods', { methods: registeredMethods });
+    }
+
+    public async *notifications(methodName: string, params: any): AsyncGenerator<any, void, unknown> {
+
+        const handler = this.methodRegistry.getHandler(methodName);
+
+        if (!handler) {
+            throw new Error(`Handler for method ${methodName} not found`);
+        }
+
+        const notifications = handler.notifications();
+
+        if (notifications.length === 0) {
+            return;
+        }
+
+        const results = await Promise.all(notifications.map((notification) => {
+            return notification.execute(params, this.documentEngine)
+        }));
+
+        for (const result of results) {
+            yield result;
+        }
     }
 
     public async execute(methodName: string, params: any): Promise<any> {
