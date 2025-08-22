@@ -1,49 +1,34 @@
 import { CodeAnalyzer } from "@/core/utils/CodeAnalyzer";
-import { ASTNode, HandlerType, LspConfig, LspMethod, Module, ModuleContext } from "notus-qml-types";
+import { ASTNode, HandlerType, LspConfig, Module, ModuleContext } from "notus-qml-types";
 
 export abstract class ModuleEngine {
 
-    protected cache: Map<string, Module>;
-    protected handlersByMethod: Map<LspMethod, Map<string, HandlerType[]>>
-    protected context: ModuleContext;
+    protected context: ModuleContext | undefined;
     protected handlers: Map<string, HandlerType[]> | undefined;
     protected lspConfig: LspConfig | null;
 
-    constructor(context: ModuleContext) {
-        this.cache = new Map();
-        this.handlersByMethod = new Map();
+    constructor(context: ModuleContext, lspConfig: LspConfig) {
         this.context = context;
         this.handlers = undefined;
-        this.lspConfig = null;
+        this.lspConfig = lspConfig;
+
+        this.loadHandlers();
     }
 
     protected abstract load(methodName: string): Module;
-    protected abstract namesByMethod(methodName: LspMethod): string[] | never[];
+    protected abstract moduleNames(): string[];
 
-    setLspConfig(lspConfig: LspConfig) {
-        this.lspConfig = lspConfig;
-    }
+    loadHandlers(): void {
 
-    // TODO no make sense receive methodName, always is diagnostics
-    setHandlersByMethod(methodName: LspMethod, context: ModuleContext): void {
-
-        if (!methodName) {
+        if (this.handlers || !this.context) {
             return;
         }
 
-        this.handlers = this.handlersByMethod.get(methodName) ?? undefined;
+        const rulesName = this.moduleNames();
 
-        if (!this.handlers) {
+        const handlers = this.handlersByName(rulesName, this.context);
 
-            const rulesName = this.namesByMethod(methodName);
-
-            const handlers = this.handlersByName(rulesName, context);
-
-            this.handlersByMethod.set(methodName, handlers);
-
-            this.handlers = handlers;
-        }
-
+        this.handlers = handlers;
 
     }
 
@@ -52,15 +37,16 @@ export abstract class ModuleEngine {
         const genericSymbol = "_";
 
         this.handlers?.get(genericSymbol)?.forEach((handler) => {
-            handler.function(codeAnalyzer, this.lspConfig?.params?.[handler.name])
+            handler.function(codeAnalyzer, this.lspConfig?.diagnostic?.params?.[handler.name])
         })
     }
 
     run(node: ASTNode) {
 
         this.handlers?.get(node.type)?.forEach((handler) => {
-            handler.function(node, this.lspConfig?.params?.[handler.name])
+            handler.function(node, this.lspConfig?.diagnostic?.params?.[handler.name])
         })
+
     }
 
     protected handlersByName(rulesName: string[], context: ModuleContext): Map<string, HandlerType[]> {
@@ -96,14 +82,7 @@ export abstract class ModuleEngine {
     }
 
     get(methodName: string): Module {
-
-        if (this.cache.has(methodName)) {
-            return this.cache.get(methodName)!;
-        }
-
-        const item = this.load(methodName);
-        this.cache.set(methodName, item);
-        return item;
+        return this.load(methodName);
     }
 
     getAll(names: string[]): Module[] {

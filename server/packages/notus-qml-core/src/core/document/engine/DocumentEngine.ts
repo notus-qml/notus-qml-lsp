@@ -1,6 +1,6 @@
 import ASTEngine from "@/core/ast/engine/ASTEngine";
 import { LineEndingsHelper } from "@/core/helper/LineEndingsHelper";
-import { ASTNode, ASTTree, LspMethod, DocumentBody, DocumentURI, TextDocumentContentChangedEvent, ModuleContext } from "notus-qml-types";
+import { ASTNode, ASTTree, DocumentBody, DocumentURI, TextDocumentContentChangedEvent, LspConfig } from "notus-qml-types";
 
 export interface TextUpdated {
     startOffset: number;
@@ -13,11 +13,13 @@ export default class DocumentEngine {
     private astEngine: ASTEngine;
     private documentsByURI: Map<DocumentURI, DocumentBody>;
     private lineEndingHelper: LineEndingsHelper;
+    private lspConfig: LspConfig;
 
     constructor(astEngine: ASTEngine) {
         this.astEngine = astEngine;
         this.documentsByURI = new Map();
         this.lineEndingHelper = new LineEndingsHelper();
+        this.lspConfig = {};
     }
 
     getAstEngine(): ASTEngine {
@@ -77,20 +79,12 @@ export default class DocumentEngine {
         this.astEngine.analyze(node);
     }
 
-    setMethod(methodName: LspMethod, context: ModuleContext): void {
-        this.astEngine.setMethod(methodName, context);
+    setLspConfig(lspConfig: LspConfig) {
+        this.lspConfig = lspConfig;
     }
 
-    positionToOffset(line: number, character: number, lines: string[]): number {
-
-        let offset = 0;
-
-        for (let i = 0; i < line; i++) {
-            offset += lines[i].length + 2; // +1 por causa do \r\n
-        }
-
-        return offset + character;
-
-    };
+    getLspConfig(): LspConfig {
+        return this.lspConfig;
+    }
 
 }

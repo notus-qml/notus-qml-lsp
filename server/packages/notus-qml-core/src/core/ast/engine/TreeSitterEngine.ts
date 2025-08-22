@@ -2,14 +2,10 @@ import ASTEngine from "@core/ast/engine/ASTEngine";
 
 import QML from "tree-sitter-qmljs";
 import { ASTTraverser } from "../traverser/ASTTraverser";
-import CompositeVisitor from "../visitor/CompositeVisitor";
 import { ASTVisitor } from "../visitor/ASTVisitor";
 import { TextUpdated } from "@/core/document/engine/DocumentEngine";
-import { RuleEngine } from "@/core/engine/module/RuleEngine";
-import { PluginEngine } from "@/core/engine/module/PluginEngine";
-import { ASTNode, ASTQueryMatch, ASTTree, ModuleContext, DocumentURI, TextDocumentContentChangedEvent, LspConfig, LspMethod } from "notus-qml-types";
+import { ASTNode, ASTQueryMatch, ASTTree, DocumentURI, TextDocumentContentChangedEvent } from "notus-qml-types";
 import { CodeAnalyzer } from "@/core/utils/CodeAnalyzer";
-import { ModuleBuilder } from "@/core/builder/ModuleBuilder";
 
 import Parser = require("tree-sitter");
 import Query = Parser.Query;
@@ -17,9 +13,7 @@ import Query = Parser.Query;
 export default class TreeSitterEngine extends ASTEngine {
 
     private parser: any;
-    private visitor: ASTVisitor;
-    private ruleEngine: RuleEngine;
-    private pluginEngine: PluginEngine;
+
     private codeAnalyzer: CodeAnalyzer;
 
     constructor() {
@@ -27,11 +21,6 @@ export default class TreeSitterEngine extends ASTEngine {
         this.parser = new Parser();
 
         this.codeAnalyzer = new CodeAnalyzer();
-
-        this.pluginEngine = new PluginEngine(ModuleBuilder.context());
-        this.ruleEngine = new RuleEngine(ModuleBuilder.context());
-
-        this.visitor = new CompositeVisitor(this.pluginEngine, this.ruleEngine);
 
         this.initialize();
     }
@@ -48,16 +37,14 @@ export default class TreeSitterEngine extends ASTEngine {
 
         this.traverser.preOrder(node, this.visitor);
 
-        // TODO Only exec this, if runByCode has some  rule
         this.codeAnalyzer.process(node.text);
 
-        this.pluginEngine.runByCode(this.codeAnalyzer);
-        this.ruleEngine.runByCode(this.codeAnalyzer);
+        this.visitor.runByCode?.(this.codeAnalyzer)
 
     }
 
-    setMethod(methodName: LspMethod, context: ModuleContext): void {
-        this.visitor.setMethod?.(methodName, context);
+    addVisitor(visitor: ASTVisitor) {
+        this.visitor.addVisitor(visitor);
     }
 
     updateTree(documentURI: DocumentURI, change: TextDocumentContentChangedEvent, textUpdated: TextUpdated): void {
@@ -104,10 +91,6 @@ export default class TreeSitterEngine extends ASTEngine {
         const syntaxNode = node as unknown as Parser.SyntaxNode;
         const matches = query.matches(syntaxNode);
         return matches as unknown as ASTQueryMatch[];
-    };
-
-    setLspConfig(lspConfig: LspConfig) {
-        this.visitor.setLspConfig?.(lspConfig);
     };
 
 }

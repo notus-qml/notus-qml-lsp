@@ -1,10 +1,10 @@
-import { ASTNode, LspConfig, LspMethod, ModuleContext } from "notus-qml-types";
+import { CodeAnalyzer } from "@/core/utils/CodeAnalyzer";
+import { ASTNode, LspConfig, ModuleContext } from "notus-qml-types";
 
 export interface ASTVisitor {
     visit(node: ASTNode): void;
     enterNode?(node: ASTNode): boolean;
     exitNode?(node: ASTNode): void;
-    setMethod?(methodName: LspMethod, context: ModuleContext): void;
-    setLspConfig?(lspConfig: LspConfig): void;
-    setIsEnabled?(isEnabled: boolean): void;
+    setContext?(context: ModuleContext): void;
+    runByCode?(codeAnalyzer: CodeAnalyzer): void;
 }

@@ -6,7 +6,7 @@ export class TestModuleEngine extends ModuleEngine {
     private moduleName: string;
 
     constructor(context: ModuleContext, moduleName: string) {
-        super(context)
+        super(context, {})
         this.moduleName = moduleName;
     }
 
@@ -14,7 +14,7 @@ export class TestModuleEngine extends ModuleEngine {
         return RequireManager.byProcessPath<Module>("");
     }
 
-    namesByMethod(methodName: LspMethod): string[] {
+    moduleNames(): string[] {
         return [this.moduleName];
     };
 

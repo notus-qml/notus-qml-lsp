@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { logger } from '../logger/Logger';
-import { LspConfig, LspMethod, WorkspaceFolder } from 'notus-qml-types';
+import { LspConfig, WorkspaceFolder } from 'notus-qml-types';
 import FileHelper from './FileHelper';
 
 // TODO remove
@@ -21,26 +21,14 @@ import FileHelper from './FileHelper';
 // }
 
 const DEFAULT_CONFIG: LspConfig = {
-    rules: {
-        [LspMethod.Diagnostic]: ["example-rule"],
-        [LspMethod.Completion]: ["example-rule"],
-        [LspMethod.CodeAction]: ["example-rule"],
-        [LspMethod.DidOpen]: ["example-rule"],
-        [LspMethod.DidChange]: ["example-rule"],
-        [LspMethod.Formatting]: ["example-rule"],
-        [LspMethod.Initialize]: []
-    },
-    plugins: {
-        [LspMethod.Diagnostic]: [
-            "property-needs-prefix-plugin",
-            "property-definition-needs-prefix-plugin"
+    diagnostic: {
+        rules: [
+            "invalid-function-definition-rule",
+            "property-definition-needs-prefix-rule",
+            "property-needs-prefix-rule",
+            "anonymous-function-acceptable-size-rule"
         ],
-        [LspMethod.Completion]: ["property-needs-prefix-plugin"],
-        [LspMethod.CodeAction]: ["property-needs-prefix-plugin"],
-        [LspMethod.DidOpen]: ["property-needs-prefix-plugin"],
-        [LspMethod.DidChange]: ["property-needs-prefix-plugin"],
-        [LspMethod.Formatting]: ["property-needs-prefix-plugin"],
-        [LspMethod.Initialize]: []
+        plugins: []
     }
 };
 

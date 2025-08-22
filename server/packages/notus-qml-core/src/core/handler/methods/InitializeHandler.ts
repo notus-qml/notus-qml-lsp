@@ -74,7 +74,7 @@ export class InitializeHandler extends MethodHandler<RequestMessage, InitializeR
             Application.setConfigs(settings);
             Application.setSnippets(snippets);
 
-            documentEngine.getAstEngine().setLspConfig(settings);
+            documentEngine.setLspConfig(settings);
 
             this.adjustCapabilitys(params.capabilities);
 

@@ -1,22 +1,25 @@
-import { ModuleContext, LspMethod } from "notus-qml-types";
+import { LspMethod } from "notus-qml-types";
 import DocumentEngine from "../document/engine/DocumentEngine";
 
 export abstract class MethodHandler<TParams, TResult> {
 
     protected methodName: LspMethod;
-    protected context: ModuleContext | undefined;
     protected notificationsHandler: MethodHandler<any, any>[];
+    protected isInitialized: boolean;
 
-    constructor(methodName: LspMethod, context?: ModuleContext) {
+    constructor(methodName: LspMethod) {
         this.methodName = methodName;
-        this.context = context;
         this.notificationsHandler = [];
+        this.isInitialized = false;
     }
+
+    protected initialize(documentEngine: DocumentEngine) { }
 
     public async execute(params: TParams, documentEngine: DocumentEngine): Promise<TResult> {
 
-        if (this.context) {
-            documentEngine.setMethod(this.methodName, this.context);
+        if (!this.isInitialized) {
+            this.initialize(documentEngine);
+            this.isInitialized = true;
         }
 
         return this.handleExecute(params, documentEngine);

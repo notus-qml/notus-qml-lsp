@@ -56,7 +56,8 @@ export class TestDiagnosticExecutor extends TestExecutor {
 
         const visitor = new ModuleVisitor(testModuleEngine);
 
-        visitor.setMethod?.(LspMethod.Diagnostic, context);
+        // TODO adjust for testes
+        // visitor.setContext?.(context);
 
         transverser.preOrder(tree.rootNode, visitor);
 

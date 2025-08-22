@@ -1,44 +1,30 @@
-import { PluginEngine } from "@/core/engine/module/PluginEngine";
+import { ASTNode } from "notus-qml-types";
 import { ASTVisitor } from "./ASTVisitor";
-import ModuleVisitor from "./ModuleVisitor";
-import { ModuleContext, LspConfig, LspMethod, ASTNode } from "notus-qml-types";
-import { RuleEngine } from "@/core/engine/module/RuleEngine";
+import { CodeAnalyzer } from "@/core/utils/CodeAnalyzer";
 
 export default class CompositeVisitor implements ASTVisitor {
 
-    private pluginVisitor: ModuleVisitor;
-    private ruleVisitor: ModuleVisitor;
+    private visitors: ASTVisitor[];
 
-    constructor(pluginEngine: PluginEngine, ruleEngine: RuleEngine) {
-        this.pluginVisitor = new ModuleVisitor(pluginEngine);
-        this.ruleVisitor = new ModuleVisitor(ruleEngine);
+    constructor() {
+        this.visitors = [];
     }
 
     visit(node: ASTNode): void {
-        this.ruleVisitor.visit(node)
-        this.pluginVisitor.visit(node)
+        this.visitors.forEach((visitor) => {
+            visitor.visit(node)
+        })
     }
 
-    setMethod(methodName: LspMethod, context: ModuleContext) {
-        this.ruleVisitor?.setMethod?.(methodName, context);
-        this.pluginVisitor?.setMethod?.(methodName, context);
-    }
+    runByCode(codeAnalyzer: CodeAnalyzer): void {
 
-    disablePluginVisitor(lspConfig: LspConfig) {
-
-        const hasPluginPath = lspConfig.paths?.plugin !== '';
-
-        this.pluginVisitor.setIsEnabled(hasPluginPath);
+        this.visitors.forEach((visitor) => {
+            visitor?.runByCode?.(codeAnalyzer)
+        })
 
     }
 
-    setLspConfig(lspConfig: LspConfig) {
-
-        this.disablePluginVisitor(lspConfig);
-
-        this.ruleVisitor?.setLspConfig?.(lspConfig);
-        this.pluginVisitor?.setLspConfig?.(lspConfig);
-
+    addVisitor(visitor: ASTVisitor) {
+        this.visitors.push(visitor)
     }
-
 }
