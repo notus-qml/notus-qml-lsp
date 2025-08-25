@@ -1,28 +1,15 @@
-import { ModuleType, TestModuleType } from '../types/module-generator.types';
+import { TestModuleType } from '../types/module-generator.types';
 import { TemplateHelper } from './TemplateHelper';
 
 export class TestTemplate {
 
-    static testModuleByType(moduleType: typeof ModuleType[keyof typeof ModuleType]) {
-
-        const map = new Map<typeof ModuleType[keyof typeof ModuleType], string>([
-            [ModuleType.PLUGIN, TestModuleType.PLUGIN],
-            [ModuleType.RULE, TestModuleType.RULE]
-        ])
-
-        const value = map.get(moduleType);
-
-        if (!value) {
-            throw new Error('Module type not suported!')
-        }
-
-        return value;
-
+    static testModuleType() {
+        return TestModuleType.RULE;
     }
 
-    static create(testName: string, moduleType: typeof ModuleType[keyof typeof ModuleType], moduleName: string) {
+    static create(testName: string, moduleName: string) {
 
-        const testModule = TestTemplate.testModuleByType(moduleType)
+        const testModule = TestTemplate.testModuleType()
 
         const keys: Map<string, string> = new Map();
         keys.set("TestName", testName);

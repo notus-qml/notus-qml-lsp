@@ -3,32 +3,39 @@ import { logger } from '../logger/Logger';
 import { LspConfig, WorkspaceFolder } from 'notus-qml-types';
 import FileHelper from './FileHelper';
 
-// TODO remove
-// {
-//     regex: "\\bQt\\w*",
-//     order: 1,
-//     description: ""
-// },
-// {
-//     regex: "^[^\"]*$",
-//     order: 2,
-//     description: ""
-// },
-// {
-//     regex: "/\"/",
-//     order: 3,
-//     description: ""
-// }
-
 const DEFAULT_CONFIG: LspConfig = {
     diagnostic: {
         rules: [
             "invalid-function-definition-rule",
             "property-definition-needs-prefix-rule",
             "property-needs-prefix-rule",
-            "anonymous-function-acceptable-size-rule"
         ],
-        plugins: []
+        plugins: [],
+        params: {
+            "anonymous-function-acceptable-size": {
+                nrLinesAcceptable: 4
+            }
+        }
+    },
+    formatting: [
+        {
+            regex: "\\bQt\\w*",
+            order: 1,
+            description: "Qt groups first"
+        },
+        {
+            regex: "^[^\"]*$",
+            order: 2,
+            description: ""
+        },
+        {
+            regex: "/\"/",
+            order: 3,
+            description: ""
+        }
+    ],
+    paths: {
+        plugin: ""
     }
 };
 

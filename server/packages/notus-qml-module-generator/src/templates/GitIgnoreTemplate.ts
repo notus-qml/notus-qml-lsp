@@ -4,7 +4,7 @@ export class GitignoreTemplate {
 
     static create() {
 
-        return TemplateHelper.create('gitignote.template.txt')
+        return TemplateHelper.create('gitignore.template.txt')
 
     }
 

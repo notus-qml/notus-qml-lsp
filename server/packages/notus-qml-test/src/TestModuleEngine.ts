@@ -1,5 +1,5 @@
 import { ModuleEngine, RequireManager } from 'notus-qml-core';
-import { LspMethod, Module, ModuleContext } from 'notus-qml-types';
+import { Module, ModuleContext } from 'notus-qml-types';
 
 export class TestModuleEngine extends ModuleEngine {
 

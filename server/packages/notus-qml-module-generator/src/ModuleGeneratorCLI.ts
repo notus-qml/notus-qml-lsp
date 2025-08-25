@@ -16,16 +16,6 @@ function handleExceptionAdvice(callback: any) {
 }
 
 program
-    .command('make:plugin')
-    .description('Create a new plugin')
-    .argument('<name>', 'Plugin name')
-    .action((name) => {
-        handleExceptionAdvice(() => {
-            new ModuleGeneratorEngine().createPlugin(name)
-        })
-    });
-
-program
     .command('make:rule')
     .description('Create a new rule')
     .argument('<name>', 'Rule name')

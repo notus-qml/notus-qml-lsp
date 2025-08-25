@@ -1,10 +1,3 @@
-export namespace ModuleType {
-    export const PLUGIN: string = "PLUGIN"
-    export const RULE: string = "RULE"
-}
-
-export type ModuleType = "PLUGIN" | "RULE";
-
 export interface FileInfo {
     name: string;
     suffix: string;
@@ -12,8 +5,7 @@ export interface FileInfo {
 }
 
 export namespace TestModuleType {
-    export const PLUGIN: string = "TestDiagnosticPlugin"
-    export const RULE: string = "TestDiagnosticRule"
+    export const RULE: string = "TestDiagnostic"
 }
 
-export type TestModuleType = "TestDiagnosticPlugin" | "TestDiagnosticRule";
+export type TestModuleType = "TestDiagnostic";

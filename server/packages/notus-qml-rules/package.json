@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-all": "tsc && node build/ExecCommand.js --cmd=\"npm install && npm run build\"",
+    "build": "npm run build-all",
+    "test": "node build/ExecCommand.js --cmd=\"npm run test\""
   },
   "keywords": [],
   "author": "",

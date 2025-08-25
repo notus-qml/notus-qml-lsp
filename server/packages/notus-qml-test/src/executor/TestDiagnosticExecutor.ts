@@ -56,9 +56,6 @@ export class TestDiagnosticExecutor extends TestExecutor {
 
         const visitor = new ModuleVisitor(testModuleEngine);
 
-        // TODO adjust for testes
-        // visitor.setContext?.(context);
-
         transverser.preOrder(tree.rootNode, visitor);
 
         this.codeAnalyzer.process(tree.rootNode.text);

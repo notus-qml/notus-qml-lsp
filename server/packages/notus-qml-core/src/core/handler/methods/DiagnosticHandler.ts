@@ -45,7 +45,7 @@ export class DiagnosticHandler extends MethodHandler<RequestMessage, FullDocumen
 
         documentEngine.analyze(tree.rootNode);
 
-        return diagnosticReportContext.result?.() as FullDocumentDiagnosticReport;
+        return diagnosticReportContext.result() as FullDocumentDiagnosticReport;
 
     }
 

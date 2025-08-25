@@ -2,11 +2,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 // TODO change to use alias @
-import { PluginTemplate } from './templates/PluginTemplate';
 import { RuleTemplate } from './templates/RuleTemplate';
 import { TestTemplate } from './templates/TestTemplate';
-import { FileInfo, ModuleType } from './types/module-generator.types';
-import { GitignoreTemplate } from './templates/GitIgnoteTemplate';
+import { FileInfo } from './types/module-generator.types';
+import { GitignoreTemplate } from './templates/GitIgnoreTemplate';
 import { TSConfigTemplate } from './templates/TSConfigTemplate';
 import { PackageTemplate } from './templates/PackageTemplate';
 
@@ -72,7 +71,7 @@ export class ModuleGeneratorEngine {
         }
     }
 
-    createModule(moduleName: string, moduleType: string) {
+    createModule(moduleName: string) {
 
         const ruleFolderPath = this.createFolder(this.basePath(""), moduleName);
 
@@ -91,28 +90,21 @@ export class ModuleGeneratorEngine {
         const sourceFolterPath = this.createFolder(ruleFolderPath, "src");
 
         this.createFile(sourceFolterPath, "index.ts", () => {
-            return moduleType === ModuleType.PLUGIN ? PluginTemplate.create(moduleName) : RuleTemplate.create(moduleName);
+            return RuleTemplate.create(moduleName);
         });
 
-        this.createTest(sourceFolterPath, moduleName, moduleType);
+        this.createTest(sourceFolterPath, moduleName);
 
-    }
-
-    createPlugin(moduleName: string) {
-
-        this.validSufix(moduleName, "plugin")
-
-        this.createModule(moduleName, ModuleType.PLUGIN);
     }
 
     createRule(moduleName: string) {
 
         this.validSufix(moduleName, "rule")
 
-        this.createModule(moduleName, ModuleType.RULE);
+        this.createModule(moduleName);
     }
 
-    createTest(dirPath: string, moduleName: string, moduleType: typeof ModuleType[keyof typeof ModuleType]) {
+    createTest(dirPath: string, moduleName: string) {
 
         const testFolderPath = this.createFolder(dirPath, "test");
 
@@ -120,7 +112,7 @@ export class ModuleGeneratorEngine {
         const className = this.toClassFileName(`test-${moduleName}`)
 
         this.createFile(testFolderPath, fileName, () => {
-            return TestTemplate.create(className.name, moduleType, moduleName);
+            return TestTemplate.create(className.name, moduleName);
         });
 
     }
