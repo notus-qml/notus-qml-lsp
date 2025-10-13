@@ -1,0 +1,102 @@
+// A launch configuration that compiles the extension and then opens it inside a new window
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "node",
+			"request": "attach",
+			"name": "Attach LSP",
+			"port": 9229
+		},
+		{
+			"name": "Launch Client",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceRoot}"
+			],
+			"outFiles": [
+				"${workspaceRoot}/client/out/**/*.js",
+				"${workspaceRoot}/server/build/**/*.js",
+				"${workspaceRoot}/server/packages/notus-qml-core/build/**/*.js"
+			],
+			"autoAttachChildProcesses": true,
+			"preLaunchTask": {
+				"type": "npm",
+				"script": "watch"
+			},
+		},
+		{
+			"name": "Launch Server",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceRoot}/server/build/server.js",
+			"args": [],
+			"cwd": "${workspaceRoot}/server",
+			"runtimeArgs": [
+				"-r",
+				"tsconfig-paths/register"
+			],
+			"outFiles": [
+				"${workspaceRoot}/server/build/**/*.js",
+				"${workspaceRoot}/server/packages/notus-qml-core/build/**/*.js"
+			],
+			"env": {
+				"NODE_ENV": "development"
+			}
+		},
+		{
+			"name": "Launch Extension with Server",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceRoot}"
+			],
+			"outFiles": [
+				"${workspaceRoot}/client/out/**/*.js",
+				"${workspaceRoot}/server/build/**/*.js",
+				"${workspaceRoot}/server/packages/notus-qml-core/build/**/*.js"
+			],
+			"autoAttachChildProcesses": true,
+			"preLaunchTask": {
+				"type": "npm",
+				"script": "compile"
+			}
+		},
+		{
+			"name": "Debug Extension (Client + Server)",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceRoot}"
+			],
+			"outFiles": [
+				"${workspaceRoot}/client/out/**/*.js",
+				"${workspaceRoot}/server/build/**/*.js",
+				"${workspaceRoot}/server/packages/notus-qml-core/build/**/*.js"
+			],
+			"autoAttachChildProcesses": true,
+			"preLaunchTask": {
+				"type": "npm",
+				"script": "compile"
+			},
+			"serverReadyAction": {
+				"pattern": "Server started",
+				"uriFormat": "http://localhost:3000",
+				"action": "debugWithChrome"
+			}
+		}
+	],
+	"compounds": [
+		{
+			"name": "Launch Extension + Server",
+			"configurations": [
+				"Launch Client",
+				"Launch Server"
+			]
+		}
+	],
+}
