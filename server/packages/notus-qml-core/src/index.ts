@@ -3,9 +3,9 @@ import { addAlias } from 'module-alias';
 addAlias('@', __dirname + '/');
 addAlias('@core', __dirname + '/core');
 
-export * from "@core/dispatcher/MethodDispatcher"
-export * from "@core/logger/LoggerConfig"
-export * from "@core/logger/Logger"
+export * from "./core/dispatcher/MethodDispatcher"
+export * from "./core/logger/LoggerConfig"
+export * from "./core/logger/Logger"
 
 export * from "./core/engine/module/DiagnosticPluginEngine"
 export * from "./core/engine/module/DiagnosticRuleEngine"

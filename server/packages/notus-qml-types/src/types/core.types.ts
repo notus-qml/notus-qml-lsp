@@ -17,12 +17,16 @@ export interface ParamsConfig {
     [moduleName: string]: Record<string, unknown>;
 }
 
+export interface DiagnosticConfig {
+    rules: string[];
+    plugins: string[];
+    params?: ParamsConfig;
+}
+
 export interface LspConfig {
-    rules: Partial<Record<LspMethod, string[]>>;
-    plugins: Partial<Record<LspMethod, string[]>>;
+    diagnostic?: DiagnosticConfig;
     formatting?: FormattingImportGroupConfig[];
     paths?: PathsConfig;
-    params?: ParamsConfig;
 }
 
 export interface SnippetBody {

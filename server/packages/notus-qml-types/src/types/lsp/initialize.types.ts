@@ -31,19 +31,15 @@ export interface ClientCapabilities {
 }
 
 export interface InitializeParams extends WorkDoneProgressParams {
-
     processId: number | null;
-
     clientInfo?: {
         name: string;
         version?: string;
     };
-
+    capabilities: ClientCapabilities,
     locale?: string;
     rootPath?: string | null;
     rootUri: DocumentURI | null;
     initializationOptions?: LSPAny;
-    // capabilities: ClientCapabilities;
-    // trace?: TraceValue;
     workspaceFolders?: WorkspaceFolder[] | null;
 }
