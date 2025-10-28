@@ -43,6 +43,8 @@ export default class ImportFormattingHandler {
             this.orderGroups(group, matches, listOrdered, indexGroup);
         })
 
+        listOrdered[groups.length + 1] = matches;
+
         let result = this.applyGroups(listOrdered);
 
         // TODO when a line did not have a departure, but it was between imports, it was being lost
@@ -79,6 +81,7 @@ export default class ImportFormattingHandler {
                 continue;
             }
         }
+
     }
 
     hasRegexMatch(group: FormattingImportGroupConfig, capture: ASTQueryMatch): boolean {
