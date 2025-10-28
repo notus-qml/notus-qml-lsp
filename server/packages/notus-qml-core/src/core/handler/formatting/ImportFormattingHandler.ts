@@ -39,6 +39,10 @@ export default class ImportFormattingHandler {
 
         let listOrdered: ListOrdered = {};
 
+        groups.sort((first: FormattingImportGroupConfig, second: FormattingImportGroupConfig) => {
+            return first.order - second.order;
+        })
+
         groups.forEach((group: FormattingImportGroupConfig, indexGroup: number) => {
             this.orderGroups(group, matches, listOrdered, indexGroup);
         })
